@@ -1,0 +1,231 @@
+[
+    {
+        "major": "Computer Engineering (CPRE)",
+        "flowchart": {
+            "img": "./images/cpre_flowchart.jpg",
+            "major": "Computer Engineering (CPRE)",
+            "credits": "127",
+            "year": "2023-2024"
+        },
+        "major-info": {
+            "img": "./images/CPRE.jpg",
+            "major": "Computer Engineering",
+            "college": "College of Engineering",
+            "abbr": "CPRE"
+        },
+        "loc": "/azcourses/cpr_e/",
+        "courses": [
+            {
+                "courseCode": "CPRE 1660",
+                "courseTitle": "Professional Programs Orientation",
+                "credits": "Required"
+            },
+            {
+                "courseCode": "CPRE 1850",
+                "courseTitle": "Introduction to Computer Engineering and Problem Solving I",
+                "credits": "3"
+            },
+            {
+                "courseCode": "CPRE 2320",
+                "courseTitle": "Professional and Ethical Issues in Electrical and Computer Engineering",
+                "credits": "3"
+            },
+            {
+                "courseCode": "CPRE 2810",
+                "courseTitle": "Digital Logic",
+                "credits": "4"
+            },
+            {
+                "courseCode": "CPRE 2880",
+                "courseTitle": "Embedded Systems I",
+                "credits": "4"
+            },
+            {
+                "courseCode": "CPRE 3080",
+                "courseTitle": "Operating Systems",
+                "credits": "4"
+            },
+            {
+                "courseCode": "CPRE 3100",
+                "courseTitle": "Theoretical Foundations of Computer Engineering",
+                "credits": "3"
+            },
+            {
+                "courseCode": "CPRE 3810",
+                "courseTitle": "Computer Organization and Assembly Level Programming",
+                "credits": "4"
+            },
+            {
+                "courseCode": "CPRE 4910",
+                "courseTitle": "Senior Design Project I and Professionalism",
+                "credits": "3"
+            },
+            {
+                "courseCode": "CPRE 4920",
+                "courseTitle": "Senior Design Project II",
+                "credits": "2"
+            },
+            {
+                "courseCode": "CPRE 4940",
+                "courseTitle": "Portfolio Assessment",
+                "credits": "Required"
+            }
+        ]
+    },
+    {
+        "major": "Computer Science (COMS)",
+        "flowchart": {
+            "img": "./images/coms_flowchart.jpg",
+            "major": "Computer Science",
+            "credits": "120",
+            "year": "2023-2024"
+        },
+        "major-info": {
+            "img": "./images/COMS.jpg",
+            "major": "Computer Science",
+            "college": "College of Liberal Arts and Sciences",
+            "abbr": "COMS"
+        },
+        "loc": "/azcourses/com_s/",
+        "courses": [
+            {
+                "courseCode": "COMS 1010",
+                "courseTitle": "Orientation",
+                "credits": "Required"
+            },
+            {
+                "courseCode": "COMS 1270",
+                "courseTitle": "Introduction to Computer Programming",
+                "credits": "3"
+            },
+            {
+                "courseCode": "COMS 2270",
+                "courseTitle": "Object-oriented Programming",
+                "credits": "4"
+            },
+            {
+                "courseCode": "COMS 2280",
+                "courseTitle": "Introduction to Data Structures",
+                "credits": "3"
+            },
+            {
+                "courseCode": "COMS 2300",
+                "courseTitle": "Discrete Computational Structures",
+                "credits": "3"
+            },
+            {
+                "courseCode": "COMS 3090",
+                "courseTitle": "Software Development Practices",
+                "credits": "3"
+            },
+            {
+                "courseCode": "COMS 3110",
+                "courseTitle": "Introduction to the Design and Analysis of Algorithms",
+                "credits": "3"
+            },
+            {
+                "courseCode": "COMS 3210",
+                "courseTitle": "Introduction to Computer Architecture and Machine-Level Programming",
+                "credits": "3"
+            },
+            {
+                "courseCode": "COMS 3270",
+                "courseTitle": "Advanced Programming Techniques",
+                "credits": "3"
+            },
+            {
+                "courseCode": "COMS 3310",
+                "courseTitle": "Theory of Computing",
+                "credits": "3"
+            },
+            {
+                "courseCode": "COMS 3420",
+                "courseTitle": "Principles of Programming Languages",
+                "credits": "3"
+            },
+            {
+                "courseCode": "COMS 3520",
+                "courseTitle": "Introduction to Operating Systems",
+                "credits": "3"
+            },
+            {
+                "courseCode": "COMS 4020A",
+                "courseTitle": "Computer Science Senior Project",
+                "credits": "2-3"
+            },
+            {
+                "courseCode": "COMS 4020B",
+                "courseTitle": "Computer Science Senior Project",
+                "credits": "2-3"
+            },
+            {
+                "courseCode": "COMS 4020C",
+                "courseTitle": "Computer Science Senior Project",
+                "credits": "3"
+            }
+        ]
+    },
+    {
+        "major": "Software Engineering (SE)",
+        "flowchart": {
+            "img": "./images/se_flowchart.jpg",
+            "major": "Software Engineering",
+            "credits": "125",
+            "year": "2023-2024"
+        },
+        "major-info": {
+            "img": "./images/SE.jpg",
+            "major": "Software Engineering",
+            "college": "College of Engineering",
+            "abbr": "SE"
+        },
+        "loc": "/azcourses/s_e/",
+        "courses": [
+            {
+                "courseCode": "SE 1010",
+                "courseTitle": "Software Engineering Orientation",
+                "credits": "Required"
+            },
+            {
+                "courseCode": "SE 1660",
+                "courseTitle": "Careers in Software Engineering",
+                "credits": "Required"
+            },
+            {
+                "courseCode": "SE 1850",
+                "courseTitle": "Problem Solving in Software Engineering",
+                "credits": "3"
+            },
+            {
+                "courseCode": "SE 3090",
+                "courseTitle": "Software Development Practices",
+                "credits": "3"
+            },
+            {
+                "courseCode": "SE 3170",
+                "courseTitle": "Introduction to Software Testing",
+                "credits": "3"
+            },
+            {
+                "courseCode": "SE 3190",
+                "courseTitle": "Construction of User Interfaces",
+                "credits": "3"
+            },
+            {
+                "courseCode": "SE 3390",
+                "courseTitle": "Software Architecture and Design",
+                "credits": "3"
+            },
+            {
+                "courseCode": "SE 4910",
+                "courseTitle": "Senior Design Project I and Professionalism",
+                "credits": "3"
+            },
+            {
+                "courseCode": "SE 4920",
+                "courseTitle": "Senior Design Project II",
+                "credits": "2"
+            }
+        ]
+    }
+]
