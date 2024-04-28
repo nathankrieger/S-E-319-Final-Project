@@ -20,9 +20,11 @@ body {
     text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
     box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
     color: white;
-    background-color: rgb(33, 37, 41);
+    background-color: rgb(33, 37, 41) !important;
     min-height: 100vh;
     grid-template-rows: auto 1fr auto;
+    /* font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
+    
 }
 
 .cover-container {
@@ -453,10 +455,28 @@ p {
     border-bottom-color: #fdc82f;
 } */
 
-footer {
-    /* position: fixed; */
+/* footer {
     bottom: 0;
     width: 100%;
-}
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    padding-top: 60px;
+} */
+
+
+
+/* 
+USED WITH REACT COMPONENTS
+.custom-navbar .nav-link,
+.custom-navbar .navbar-brand {
+  color: white;
+} */
+
+/* .px-3 {
+    top: 50%;
+} */
 
 
