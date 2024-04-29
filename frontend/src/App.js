@@ -14,7 +14,6 @@ function App() {
 
   return (
 
-
     <Router>
       <div className="min-vh-100 d-flex flex-column">
         <div className="cover-container d-flex w-100 p-3 mx-auto flex-column flex-grow-1 text-center">
