@@ -21,7 +21,7 @@ function App() {
     //const navigate = useNavigate();
 
     useEffect(() => {
-      fetch("http://localhost:8081/getCourses")
+      fetch("http://localhost:8081/courses")
           .then((response) => response.json())
           .then((data) => {
               setProducts(data);
