@@ -27,7 +27,7 @@ app.get("/getCourses", async (req, res) => {
 
     const query = {};
 
-    const results = await db.collection("courses").find(query).limit(100).toArray();
+    const results = await db.collection("courses").find(query).toArray();
     console.log(results);
 
     res.status(200);
