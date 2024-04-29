@@ -503,6 +503,8 @@ USED WITH REACT COMPONENTS
     position: relative;
     box-shadow: 0 0 40px rgba(51, 51, 51, .1);
 
+    margin-top: 10rem;
+
 }
 
 .search input {
@@ -541,3 +543,12 @@ USED WITH REACT COMPONENTS
     background: blue;
 
 }
+
+.course-item {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .course-item:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }

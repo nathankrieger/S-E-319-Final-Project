@@ -27,9 +27,7 @@ app.get("/courses", async (req, res) => {
         console.log("Node connected successfully to GET MongoDB");
 
         const query = {};
-
         const results = await db.collection("courses").find(query).toArray();
-
         res.status(200);
         res.send(results);
     }

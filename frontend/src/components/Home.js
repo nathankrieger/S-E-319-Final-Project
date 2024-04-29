@@ -1,36 +1,69 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import '../style.css';
 
-class Home extends Component {
+const Home = () => {
+    const [products, setProducts] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
 
-    render() {
+    useEffect(() => {
+        fetch("http://localhost:8081/getCourses")
+            .then((response) => response.json())
+            .then((data) => {
+                setProducts(data);
+            });
+    }, []);
 
-        return (
+    useEffect(() => {
+        const results = products.filter((course) =>
+          course.courseCode.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setSearchResults(results);
+      }, [searchTerm, products]);
 
-            <div className="container text-center">
-                <h1>Welcome</h1>
-                <p>This website is designed with the intent to give every student the ability to seemlessly find any required course in their major at Iowa State.
-                </p>
-                {/* <p className="lead">
-                    <Link to="/getcatalog" className="btn btn-lg btn-light fw-bold border-white bg-white">Find a course</Link>
-                </p> */}
-                <div class="row height d-flex justify-content-center align-items-center">
+    const handleChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
 
-                    <div class="col-md-8">
+    const handleSearch = () => {
+        // You can perform any additional actions here if needed
+        console.log("Search term:", searchTerm);
+    };
 
-                        <div class="search">
-                            <i class="fa fa-search"></i>
-                            <input type="text" class="form-control" placeholder="Search By Course Code..." />
-                            <button class="btn btn-primary">Search</button>
-                        </div>
+    const listItems = searchResults.map((course) => (
+        <div className="m-5 course-item" key={course.courseCode}>
+          <Link to={`/course/${course.courseCode}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <h2>{course.courseCode}</h2>
+            <p>Title: {course.courseTitle}</p>
+            <p>Credits: {course.credits}</p>
+          </Link>
+        </div>
+      ));
+      
 
+    return (
+        <div className="container text-center">
+            <div class="row height d-flex justify-content-center align-items-center">
+                <div class="col-md-8">
+                    <div class="search">
+                        <i class="fa fa-search"></i>
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search By Course Code..."
+                            value={searchTerm}
+                            onChange={handleChange}
+                        />
+                        <button class="btn btn-primary" onClick={handleSearch}>
+                            Search
+                        </button>
                     </div>
-
                 </div>
             </div>
-
-        );
-    }
-}
+            {listItems}
+        </div>
+    );
+};
 
 export default Home;
