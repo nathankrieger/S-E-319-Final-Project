@@ -21,16 +21,25 @@ function App() {
     //const navigate = useNavigate();
 
     useEffect(() => {
+      fetch("http://localhost:8081/getCourses")
+          .then((response) => response.json())
+          .then((data) => {
+              setProducts(data);
+          });
+  }, []);
+
+    const handleChange = (event) => {
+      setSearchTerm(event.target.value);
+    };
+
+    const handleSearch = () => {
       const results = products.filter((major) =>
         major.courses.some((course) =>
           course.courseCode.toLowerCase().includes(searchTerm.toLowerCase())
         )
       );
+      console.log("Search term:", searchTerm);
       setSearchResults(results);
-    }, [searchTerm, products]);
-
-    const handleChange = (event) => {
-      setSearchTerm(event.target.value);
     };
 
 
@@ -59,16 +68,38 @@ function App() {
 
     ));
 
-    return (<div className="m-5">
+    return (
 
-      <input
-        type="text"
-        placeholder="Search Course by Course Code"
-        value={searchTerm}
-        onChange={handleChange}
-      />
-      {listItems}
-    </div>);
+      <div className="container text-center">
+        <h1>Welcome</h1>
+        <p>This website is designed with the intent to give every student the ability to seemlessly find any required course in their major at Iowa State.
+        </p>
+        <div class="row height d-flex justify-content-center align-items-center">
+
+          <div class="col-md-8">
+
+            <div class="search mt-5">
+              {/* <i class="fa fa-search"></i> */}
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search By Course Code..."
+                value={searchTerm}
+                onChange={handleChange}
+              />
+              <button className="btn btn-primary" onClick={handleSearch}>
+                Search
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+        {listItems}
+      </div>
+
+
+    );
   }
 
   return (
@@ -83,7 +114,7 @@ function App() {
           </main> */}
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/getcatalog" element={<Get />} />
+            <Route path="/getcourses" element={<Get />} />
             <Route path="/about" element={<About />} />
 
           </Routes>

@@ -24,7 +24,7 @@ body {
     min-height: 100vh;
     grid-template-rows: auto 1fr auto;
     /* font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
-    
+
 }
 
 .cover-container {
@@ -411,13 +411,17 @@ p {
 }
 
 #search:focus {
-    outline: none; /* Remove the default focus outline */
-    border-color: black; /* Change the border color when the input is focused */
-    box-shadow: 0 0 0 0.2rem rgba(10, 10, 10, 0.25); /* Add a shadow when the input is focused */
+    outline: none;
+    /* Remove the default focus outline */
+    border-color: black;
+    /* Change the border color when the input is focused */
+    box-shadow: 0 0 0 0.2rem rgba(10, 10, 10, 0.25);
+    /* Add a shadow when the input is focused */
 }
 
 .course-container:hover {
-    background-color: rgba(61, 72, 77, 0.7); /* Change the background color on hover */
+    background-color: rgba(61, 72, 77, 0.7);
+    /* Change the background color on hover */
 }
 
 .user-info {
@@ -480,3 +484,60 @@ USED WITH REACT COMPONENTS
 } */
 
 
+/* Search Box */
+
+
+
+/* body{
+        background-color:#eee;
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+       } */
+
+/* .height{
+        height: 100vh;
+       } */
+
+
+.search {
+    position: relative;
+    box-shadow: 0 0 40px rgba(51, 51, 51, .1);
+
+}
+
+.search input {
+
+    height: 60px;
+    text-indent: 25px;
+    border: 2px solid #d6d4d4;
+
+
+}
+
+
+.search input:focus {
+
+    box-shadow: none;
+    border: 2px solid blue;
+
+
+}
+
+.search .fa-search {
+
+    position: absolute;
+    top: 20px;
+    left: 16px;
+
+}
+
+.search button {
+
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 50px;
+    width: 110px;
+    background: blue;
+
+}
