@@ -40,7 +40,7 @@ app.get("/courses", async (req, res) => {
 });
 
 // get single course
-app.get("/course/:course", async (req, res) => {
+app.get("/courses/:course", async (req, res) => {
     try {
         courseCode = decodeURIComponent(req.params.course);
 

@@ -4,36 +4,30 @@ import '../style.css';
 
 const Course = () => {
 
+    const [oneCourse, setOneCourse] = useState([]);
+
     useEffect(() => {
-        fetch("http://localhost:8081/course/ACCT")
+        fetch("http://localhost:8081/courses/ACCT%202150")
             .then((response) => response.json())
             .then((data) => {
-                setProducts(data);
+                setOneCourse([data]);
             });
     }, []);
 
-    const courseInfo = () => {
+    const courseInfo = oneCourse.map((course) => (
         <div class="text-center">
             <div class="h-100 p-5 text-bg-dark rounded-3">
-                <h1 id="course-code" class="display-5 fw-bold" style={{marginTop: "50px"}}></h1>
-                <p id="course-title" class="col-md-8 fs-4" style={{margin: "0 auto", textAlign: "center"}}></p>
-                <p id="course-credits" class="col-md-8 fs-4" style={{margin: "0 auto", textAlign: "center", paddingTop: "20px"}}>
-                </p>
+                <h1 id="course-code" class="display-5 fw-bold" style={{marginTop: "50px"}}>{course.courseCode}</h1>
+                <p id="course-title" class="col-md-8 fs-4" style={{margin: "0 auto", textAlign: "center"}}>{course.courseTitle}</p>
+                <p id="course-credits" class="col-md-8 fs-4" style={{margin: "0 auto", textAlign: "center", paddingTop: "20px"}}><strong>Credits: {course.credits}</strong></p>
             </div>
         </div>
-    }
+    ));
 
     return (
         <main>
             <div class="row align-items-md-stretch">
-                <div class="text-center">
-                    <div class="h-100 p-5 text-bg-dark rounded-3">
-                        <h1 id="course-code" class="display-5 fw-bold" style={{marginTop: "50px"}}></h1>
-                        <p id="course-title" class="col-md-8 fs-4" style={{margin: "0 auto", textAlign: "center"}}></p>
-                        <p id="course-credits" class="col-md-8 fs-4" style={{margin: "0 auto", textAlign: "center", paddingTop: "20px"}}>
-                        </p>
-                    </div>
-                </div>
+                {courseInfo}
                 <div class="text-center">
                 <div class="h-100 p-5 text-bg-dark rounded-3">
                     <span class="heading">Student Rating</span>
