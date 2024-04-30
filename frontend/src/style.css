@@ -23,12 +23,12 @@ body {
     background-color: rgb(33, 37, 41) !important;
     min-height: 100vh;
     grid-template-rows: auto 1fr auto;
-    /* font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
 }
 
 .cover-container {
-    max-width: 42em;
+    max-width: 55em;
     /* min-width: 700px; */
     overflow: auto;
 
@@ -502,6 +502,9 @@ USED WITH REACT COMPONENTS
 .search {
     position: relative;
     box-shadow: 0 0 40px rgba(51, 51, 51, .1);
+    margin: 5rem;
+    margin-top: 20rem;
+    
 
 }
 
@@ -518,7 +521,7 @@ USED WITH REACT COMPONENTS
 .search input:focus {
 
     box-shadow: none;
-    border: 2px solid blue;
+    border: 2px solid rgb(89, 89, 245);
 
 
 }
@@ -538,6 +541,91 @@ USED WITH REACT COMPONENTS
     right: 5px;
     height: 50px;
     width: 110px;
-    background: blue;
+    background: rgb(104, 104, 254);
 
 }
+
+.course-item {
+    transition: transform 0.2s ease-in-out;
+}
+
+.course-item:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.form-control {
+    border-radius: 12px !important;
+}
+
+
+
+
+/* Table */
+/* th,
+td {
+    border: 1px solid rgb(160 160 160);
+    padding: 8px 10px;
+}
+
+th[scope='col'] {
+    background-color: #505050;
+    color: #fff;
+}
+
+th[scope='row'] {
+    background-color: #d6ecd4;
+}
+
+td {
+    text-align: center;
+}
+
+tr:nth-of-type(even) {
+    background-color: #eee;
+}
+
+table {
+    border-collapse: collapse;
+    border: 2px solid rgb(140 140 140);
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+} */
+
+.table-container {
+    max-width: 800px;
+    margin: 6rem;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    /* background-color: rgb(42, 46, 51) !important; */
+  }
+  
+  th, td {
+    padding: 15px !important;
+    vertical-align: center !important;
+    text-align: center;
+    color: white !important;
+    min-width: 200px;
+    background-color: transparent !important;
+  }
+  
+  td {
+    padding-top: 40px !important;
+    background-color: transparent !important ;
+    color: white !important;
+  }
+  
+  /* tr:nth-child(even) {
+    background-color: #f2f2f207;
+  } */
+  
+  /* TODO - Hover does not have rounded edges */
+  tr:hover {
+    background-color: rgb(66, 72, 79);
+  }
+  

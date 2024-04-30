@@ -7,26 +7,9 @@ class Footer extends Component {
 
 
         return (
-            // <header class="mb-auto">
-            //   <div class="navContainer">
-            //     <div onClick={() => navigate('/getcatalog')}>
-            //       <div class="navElem">Get</div>
-            //     </div>
-            //     <div onClick={() => navigate('/postcatalog')}>
-            //       <div class="navElem">Post</div>
-            //     </div>
-            //     <div onClick={() => navigate('/putcatalog')}>
-            //       <div class="navElem">Put</div>
-            //     </div>
-            //     <div onClick={() => navigate('/deletecatalog')}>
-            //       <div class="navElem">Delete</div>
-            //     </div>
-            //     <div onClick={() => navigate('/studentinfo')}>
-            //       <div class="navElem">Student Info</div>
-            //     </div>
-            //   </div>
-            // </header>
             <footer className="mt-auto text-white-50 text-center">
+                <p>This website is designed with the intent to give every student the ability to seemlessly find any required course in their major at Iowa State.
+                </p>
                 <p>Website made by <strong>Nathan Krieger</strong> & <strong>Rocco Zollo</strong></p>
             </footer>
 
