@@ -39,6 +39,27 @@ app.get("/courses", async (req, res) => {
     }
 });
 
+// get single course
+app.get("/course/:course", async (req, res) => {
+    try {
+        courseCode = decodeURIComponent(req.params.course);
+
+        await client.connect();
+        console.log("Node connected successfully to GET COURSE MongoDB");
+
+        const query = {"courseCode": courseCode};
+
+        const results = await db.collection("courses").findOne(query);
+
+        res.status(200);
+        res.send(results);
+    }
+    catch {
+        res.status(500);
+        res.send();
+    }
+});
+
 //get all current users
 app.get("/users", async (req, res) => {
     try {
