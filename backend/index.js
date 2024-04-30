@@ -120,10 +120,10 @@ app.delete("/user/:username", async (req, res) => {
         console.log("Node connected successfully to DELETE USER MongoDB");
 
         query = {"reviews": {$elemMatch: {"user": username}}}
-        const reviewsRes = await db.collection("courses").deleteMany(query);
+        const reviewsRes = await db.collection("courses").updateMany(query, {$pull: {'reviews': {'user': username}}});
 
         query = {"ratings": {$elemMatch: {"user": username}}}
-        const ratingsRes = await db.collection("courses").deleteMany(query);
+        const ratingsRes = await db.collection("courses").updateMany(query, {$pull: {'ratings': {'user': username}}});
 
         query = {"username": username}
         const results = await db.collection("users").deleteOne(query);
