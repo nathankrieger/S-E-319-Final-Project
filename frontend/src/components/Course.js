@@ -28,6 +28,8 @@ const Course = () => {
             .then((data) => {
                 setReviews(data);
             });
+
+        setRatingBars();
     }, []);
 
     function setRatingBars() {
