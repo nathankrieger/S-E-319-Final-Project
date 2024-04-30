@@ -8,7 +8,7 @@ const Home = () => {
     const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:8081/getCourses")
+        fetch("http://localhost:8081/courses")
             .then((response) => response.json())
             .then((data) => {
                 setProducts(data);
@@ -17,37 +17,48 @@ const Home = () => {
 
     useEffect(() => {
         const results = products.filter((course) =>
-          course.courseCode.toLowerCase().includes(searchTerm.toLowerCase())
+            course.courseCode.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setSearchResults(results);
-      }, [searchTerm, products]);
+    }, [searchTerm, products]);
 
     const handleChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    const handleSearch = () => {
-        // You can perform any additional actions here if needed
-        console.log("Search term:", searchTerm);
-    };
-
+    // const listItems = searchResults.map((course) => (
+    //     <div className="m-5 course-item" key={course.courseCode}>
+    //       <Link to={`/course/${course.courseCode}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+    //         <h2>{course.courseCode}</h2>
+    //         <p>Title: {course.courseTitle}</p>
+    //         <p>Credits: {course.credits}</p>
+    //       </Link>
+    //     </div>
+    //   ));
     const listItems = searchResults.map((course) => (
-        <div className="m-5 course-item" key={course.courseCode}>
-          <Link to={`/course/${course.courseCode}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <h2>{course.courseCode}</h2>
-            <p>Title: {course.courseTitle}</p>
-            <p>Credits: {course.credits}</p>
-          </Link>
-        </div>
-      ));
-      
+            
+                
+        <tr key={course.courseCode}>
+        <td>
+            <Link to={`/course/${course.courseCode}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                {course.courseCode}
+            </Link>
+        </td>
+        <td>{course.courseTitle}</td>
+        <td>{course.credits}</td>
+    </tr>
+                
+            
+        
+    ));
+
 
     return (
         <div className="container text-center">
-            <div class="row height d-flex justify-content-center align-items-center">
-                <div class="col-md-8">
+            {/* <div class="row height d-flex justify-content-center align-items-center"> */}
+                <div class="col justify-content-center">
                     <div class="search">
-                        <i class="fa fa-search"></i>
+                        {/* <i class="fa fa-search"></i> */}
                         <input
                             type="text"
                             class="form-control"
@@ -55,13 +66,24 @@ const Home = () => {
                             value={searchTerm}
                             onChange={handleChange}
                         />
-                        <button class="btn btn-primary" onClick={handleSearch}>
-                            Search
-                        </button>
                     </div>
                 </div>
+            {/* </div> */}
+            <div className="table-responsive">
+                <table className="table table-borderless table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Course Code</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Credits</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listItems}
+                    </tbody>
+                </table>
             </div>
-            {listItems}
+
         </div>
     );
 };
