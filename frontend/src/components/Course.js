@@ -5,6 +5,10 @@ import '../style.css';
 const Course = () => {
 
     const [oneCourse, setOneCourse] = useState([]);
+    const [ratings, setRatings] = useState([]);
+    const [reviews, setReviews] = useState([]);
+
+    const numRatings = [0, 0, 0, 0, 0];
 
     useEffect(() => {
         fetch("http://localhost:8081/courses/ACCT%202150")
@@ -12,7 +16,38 @@ const Course = () => {
             .then((data) => {
                 setOneCourse([data]);
             });
+
+        fetch("http://localhost:8081/ACCT%202150/ratings")
+            .then((response) => response.json())
+            .then((data) => {
+                setRatings(data);
+            });
+
+        fetch("http://localhost:8081/ACCT%202150/reviews")
+            .then((response) => response.json())
+            .then((data) => {
+                setReviews(data);
+            });
     }, []);
+
+    function setRatingBars() {
+        for (var i = 0; i < ratings.length; i++) {
+            numRatings[ratings[i].rating-1]++;
+        }
+    }
+
+    function getAverageRating() {
+        if (ratings.length == 0) {
+            return 0;
+        }
+        else {
+            var sum = 0;
+            for (var i = 0; i < ratings.length; i++) {
+                sum+=ratings.rating;
+            }
+            return (sum/ratings.length).toFixed(2);
+        }
+    }
 
     const courseInfo = oneCourse.map((course) => (
         <div class="text-center">
@@ -36,7 +71,7 @@ const Course = () => {
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star"></span>
-                    <p><strong>4.1</strong> average based on <strong>254</strong> reviews.</p>
+                    <p><strong>{getAverageRating()}</strong> average based on <strong>{ratings.length}</strong> reviews.</p>
                     <hr style={{border: "3px solid #f1f1f1"}}/>
 
                     <div class="row">
@@ -45,55 +80,55 @@ const Course = () => {
                     </div>
                     <div class="middle">
                         <div class="bar-container">
-                        <div class="bar-5"></div>
+                        <div class="bar-5" style={{width: `${(numRatings[4]/ratings.length)*100}%`}}></div>
                         </div>
                     </div>
                     <div class="side right">
-                        <div>150</div>
+                        <div>{numRatings[4]}</div>
                     </div>
                     <div class="side">
                         <div>4 star</div>
                     </div>
                     <div class="middle">
                         <div class="bar-container">
-                        <div class="bar-4"></div>
+                        <div class="bar-4" style={{width: `${(numRatings[3]/ratings.length)*100}%`}}></div>
                         </div>
                     </div>
                     <div class="side right">
-                        <div>63</div>
+                        <div>{numRatings[3]}</div>
                     </div>
                     <div class="side">
                         <div>3 star</div>
                     </div>
                     <div class="middle">
                         <div class="bar-container">
-                        <div class="bar-3"></div>
+                        <div class="bar-3" style={{width: `${(numRatings[2]/ratings.length)*100}%`}}></div>
                         </div>
                     </div>
                     <div class="side right">
-                        <div>15</div>
+                        <div>{numRatings[2]}</div>
                     </div>
                     <div class="side">
                         <div>2 star</div>
                     </div>
                     <div class="middle">
                         <div class="bar-container">
-                        <div class="bar-2"></div>
+                        <div class="bar-2" style={{width: `${(numRatings[1]/ratings.length)*100}%`}}></div>
                         </div>
                     </div>
                     <div class="side right">
-                        <div>6</div>
+                        <div>{numRatings[1]}</div>
                     </div>
                     <div class="side">
                         <div>1 star</div>
                     </div>
                     <div class="middle">
                         <div class="bar-container">
-                        <div class="bar-1"></div>
+                        <div class="bar-1" style={{width: `${(numRatings[0]/ratings.length)*100}%`}}></div>
                         </div>
                     </div>
                     <div class="side right">
-                        <div>20</div>
+                        <div>{numRatings[0]}</div>
                     </div>
                     </div>
                 </div>
