@@ -8,6 +8,7 @@ import './style.css';
 import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
+import Course from "./components/Course"
 import About from "./components/About";
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-
+            <Route path="/course" element={<Course />} />
           </Routes>
           <Footer />
         </div>
