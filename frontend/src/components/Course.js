@@ -7,8 +7,7 @@ const Course = () => {
     const [oneCourse, setOneCourse] = useState([]);
     const [ratings, setRatings] = useState([]);
     const [reviews, setReviews] = useState([]);
-
-    const numRatings = [0, 0, 0, 0, 0];
+    const [numRatings, setNumRatings] = useState([0, 0, 0, 0, 0]);
 
     useEffect(() => {
         fetch("http://localhost:8081/courses/ACCT%202150")
@@ -29,13 +28,15 @@ const Course = () => {
                 setReviews(data);
             });
 
-        setRatingBars();
+            setRatingBars();
     }, []);
 
     function setRatingBars() {
+        var tmp = [0, 0, 0, 0, 0];
         for (var i = 0; i < ratings.length; i++) {
-            numRatings[ratings[i].rating-1]++;
+            tmp[ratings[i].rating-1]++;
         }
+        setNumRatings(tmp);
     }
 
     function getAverageRating() {
@@ -45,7 +46,7 @@ const Course = () => {
         else {
             var sum = 0;
             for (var i = 0; i < ratings.length; i++) {
-                sum+=ratings.rating;
+                sum+=ratings[i].rating;
             }
             return (sum/ratings.length).toFixed(2);
         }
@@ -57,6 +58,24 @@ const Course = () => {
                 <h1 id="course-code" class="display-5 fw-bold" style={{marginTop: "50px"}}>{course.courseCode}</h1>
                 <p id="course-title" class="col-md-8 fs-4" style={{margin: "0 auto", textAlign: "center"}}>{course.courseTitle}</p>
                 <p id="course-credits" class="col-md-8 fs-4" style={{margin: "0 auto", textAlign: "center", paddingTop: "20px"}}><strong>Credits: {course.credits}</strong></p>
+            </div>
+        </div>
+    ));
+
+    const reviewList = reviews.map((review) => (
+        <div class="row g-4 py-5">
+            <div class="col d-flex flex-column position-relative course-container" style={{height: "150px"}}>
+                <div class="user-info">
+                <h4 style={{padding: "10px"}}>{review.user}</h4>
+                <img id="star1" class="star" src={process.env.PUBLIC_URL+"/star.svg"} />
+                <img id="star2" class="star" src={process.env.PUBLIC_URL+"/star.svg"} style={review.rating < 2 ? {visibility: "hidden"} : {}} />
+                <img id="star3" class="star" src={process.env.PUBLIC_URL+"/star.svg"} style={review.rating < 3 ? {visibility: "hidden"} : {}} />
+                <img id="star4" class="star" src={process.env.PUBLIC_URL+"/star.svg"} style={review.rating < 4 ? {visibility: "hidden"} : {}} />
+                <img id="star5" class="star" src={process.env.PUBLIC_URL+"/star.svg"} style={review.rating < 5 ? {visibility: "hidden"} : {}} />
+                </div>
+                <div class="review-data">
+                <p>{review.body}</p>
+                </div>
             </div>
         </div>
     ));
@@ -136,40 +155,9 @@ const Course = () => {
                 </div>
                 </div>
             </div>
-
-
             <h1 class="display-5 fw-bold">Reviews</h1>
-            <div class="row g-4 py-5">
-            <div class="col d-flex flex-column position-relative course-container" style={{height: "150px"}}>
-                <div class="user-info">
-                <h4 style={{padding: "10px"}}>test_user_1</h4>
-                <img id="star1" class="star" src="./myotherimages/star.svg" />
-                <img id="star2" class="star" src="./myotherimages/star.svg" />
-                <img id="star3" class="star" src="./myotherimages/star.svg" />
-                <img id="star4" class="star" src="./myotherimages/star.svg" style={{visibility: "hidden"}} />
-                <img id="star5" class="star" src="./myotherimages/star.svg" style={{visibility: "hidden"}} />
-                </div>
-                <div class="review-data">
-                <p>This is a test review. </p>
-                </div>
-            </div>
-            </div>
-            <div class="row g-4 py-5">
-            <div class="col d-flex flex-column position-relative course-container" style={{height: "150px"}}>
-                <div class="user-info">
-                <h4 style={{padding: "10px"}}>test_user_2</h4>
-                <img id="star1" class="star" src="./myotherimages/star.svg" />
-                <img id="star2" class="star" src="./myotherimages/star.svg" />
-                <img id="star3" class="star" src="./myotherimages/star.svg" />
-                <img id="star4" class="star" src="./myotherimages/star.svg" />
-                <img id="star5" class="star" src="./myotherimages/star.svg" style={{visibility: "hidden"}} />
-                </div>
-                <div class="review-data">
-                <p>This is a test review. </p>
-                </div>
-            </div>
-        </div>
-    </main>
+            {reviewList}
+        </main>
     );
 };
 
