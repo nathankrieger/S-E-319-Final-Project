@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-rou
 import { Link } from "react-router-dom";
 import Course from "./Course"
 import '../style.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
 const Home = () => {
     const [products, setProducts] = useState([]);
@@ -57,19 +59,26 @@ const Home = () => {
 
     return (
         <div className="container text-center">
+
+
+
+
+            
+
+
             {/* <div class="row height d-flex justify-content-center align-items-center"> */}
-                <div class="col justify-content-center">
-                    <div class="search">
-                        {/* <i class="fa fa-search"></i> */}
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Search By Course Code..."
-                            value={searchTerm}
-                            onChange={handleChange}
-                        />
-                    </div>
+            <div class="col justify-content-center">
+                <div class="search">
+                    {/* <i class="fa fa-search"></i> */}
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search By Course Code..."
+                        value={searchTerm}
+                        onChange={handleChange}
+                    />
                 </div>
+            </div>
             {/* </div> */}
             <div className="table-responsive">
                 <table className="table table-borderless table-hover">
@@ -85,6 +94,8 @@ const Home = () => {
                     </tbody>
                 </table>
             </div>
+
+            
 
         </div>
     );
