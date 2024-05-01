@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import Course from "./Course"
 import '../style.css';
 
 const Home = () => {
@@ -35,7 +37,7 @@ const Home = () => {
     //       </Link>
     //     </div>
     //   ));
-    const listItems = searchResults.map((course) => (
+    const listItems = searchResults.slice(0, 100).map((course) => (
             
                 
         <tr key={course.courseCode}>

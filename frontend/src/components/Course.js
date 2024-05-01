@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import '../style.css';
 
-const Course = ({course, username}) => {
+const Course = ({username}) => {
+    const params = useParams();
+    const course = params.courseCode;
+
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const [oneCourse, setOneCourse] = useState([]);
