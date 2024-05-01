@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import '../style.css';
 
-const Course = () => {
+const Course = ({course, username}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const [oneCourse, setOneCourse] = useState([]);
@@ -12,19 +12,19 @@ const Course = () => {
     const [numRatings, setNumRatings] = useState([0, 0, 0, 0, 0]);
 
     useEffect(() => {
-        fetch("http://localhost:8081/courses/ACCT%202150")
+        fetch(`http://localhost:8081/courses/${course}`)
             .then((response) => response.json())
             .then((data) => {
                 setOneCourse([data]);
             });
 
-        fetch("http://localhost:8081/ACCT%202150/ratings")
+        fetch(`http://localhost:8081/${course}/ratings`)
             .then((response) => response.json())
             .then((data) => {
                 setRatings(data);
             });
 
-        fetch("http://localhost:8081/ACCT%202150/reviews")
+        fetch(`http://localhost:8081/${course}/reviews`)
             .then((response) => response.json())
             .then((data) => {
                 setReviews(data);
@@ -59,7 +59,7 @@ const Course = () => {
     }
 
     const submitReview = async data => {
-        const response = await fetch("http://localhost:8081/ACCT%202150/Roccwitz/reviews", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
+        const response = await fetch(`http://localhost:8081/${course}/${username}/reviews`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
             "title": "tmp",
             "body": data.review,
             "rating": parseInt(data.rating)
