@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import '../style.css';
 
 const Course = () => {
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
     const [oneCourse, setOneCourse] = useState([]);
     const [ratings, setRatings] = useState([]);
@@ -56,6 +58,21 @@ const Course = () => {
         }
     }
 
+    const submitReview = async data => {
+        const response = await fetch("http://localhost:8081/ACCT%202150/Roccwitz/reviews", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
+            "title": "tmp",
+            "body": data.review,
+            "rating": parseInt(data.rating)
+        })});
+
+        if (response.status != 200) {
+            alert("Failed to create review");
+        }
+        else {
+            window.location.reload();
+        }
+    }
+
     const courseInfo = oneCourse.map((course) => (
         <div class="text-center">
             <div class="h-100 p-5 text-bg-dark rounded-3">
@@ -65,6 +82,37 @@ const Course = () => {
             </div>
         </div>
     ));
+
+    const addReview = (
+        <div>
+            <h3 className="mb-5">Add a review:</h3>
+            <form class="m-5" onSubmit={handleSubmit(submitReview)} className="container m-5">
+                <div class="row">
+                    <div className="col">
+                        <label for="rating">Rating</label>
+                        <input {...register("rating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Rating" className="form-control" autoFocus />
+                        {errors.rating && <p className="text-danger">Rating is required.</p>}
+                    </div>
+                </div>
+                <div class="row">
+                    <div className="col">
+                        <label htmlFor="review">Review</label>
+                        <textarea
+                            {...register("review", {
+                                required: true,
+                            })}
+                            placeholder="Review"
+                            className="form-control"
+                            rows="3"
+                            autoFocus
+                        />
+                        {errors.review && <p className="text-danger">Please enter a review for the course.</p>}
+                    </div>
+                </div>
+                <button type="submit" className="btn btn-primary mt-3">Submit</button>
+            </form>
+        </div>
+    );
 
     const reviewList = reviews.map((review) => (
         <div class="row g-4 py-5">
@@ -159,6 +207,7 @@ const Course = () => {
                 </div>
                 </div>
             </div>
+            {addReview}
             <h1 class="display-5 fw-bold">Reviews</h1>
             {reviewList}
         </main>
