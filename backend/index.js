@@ -39,6 +39,27 @@ app.get("/courses", async (req, res) => {
     }
 });
 
+// get single course
+app.get("/courses/:course", async (req, res) => {
+    try {
+        courseCode = decodeURIComponent(req.params.course);
+
+        await client.connect();
+        console.log("Node connected successfully to GET COURSE MongoDB");
+
+        const query = {"courseCode": courseCode};
+
+        const results = await db.collection("courses").findOne(query);
+
+        res.status(200);
+        res.send(results);
+    }
+    catch {
+        res.status(500);
+        res.send();
+    }
+});
+
 //get all current users
 app.get("/users", async (req, res) => {
     try {
@@ -164,11 +185,12 @@ app.get("/:course/ratings", async (req, res) => {
     }
 });
 
-//post a review on a course from a user
+//post a review on a course from a user, also updating the ratings table
 //body format (can and probably will change later):
 // {
 //     "title": title,
-//     "body": body
+//     "body": body,
+//     "rating": rating (decimal)
 // }
 app.post("/:course/:username/reviews", async (req, res) => {
     try {
@@ -184,10 +206,12 @@ app.post("/:course/:username/reviews", async (req, res) => {
         const payload = {
             "user": username,
             "title": review.title,
-            "body": review.body
+            "body": review.body,
+            "rating": review.rating
         };
 
         const results = await db.collection("courses").findOneAndUpdate(query, {$push: {"reviews": payload}});
+        const ratRes = await db.collection("courses").findOneAndUpdate(query, {$push: {"ratings": {"user": username, "rating": review.rating}}});
 
         res.status(200);
         res.send(results);
