@@ -31,6 +31,10 @@ const Course = () => {
             setRatingBars();
     }, []);
 
+    useEffect(() => {
+        setRatingBars();
+    }, [ratings]);
+
     function setRatingBars() {
         var tmp = [0, 0, 0, 0, 0];
         for (var i = 0; i < ratings.length; i++) {
