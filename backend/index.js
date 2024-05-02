@@ -92,6 +92,11 @@ app.get("/user/:username", async (req, res) => {
 
         const results = await db.collection("users").findOne(query);
 
+        if (results == null) {
+            res.status(404);
+            res.send({"error": "Object not found"});
+        }
+
         res.status(200);
         res.send(results);
     }

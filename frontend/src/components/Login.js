@@ -22,16 +22,19 @@ const Login = () => {
 
     useEffect(() => {
         if (JSON.stringify(dbUser) !== '{}') {
-            if (dbUser.username === formUser && dbUser.password === formPass) {
-                localStorage.setItem("username", dbUser.username);
-                navigate("/");
+            if (dbUser.error !== "Object not found") {
+                if (dbUser.username === formUser && dbUser.password === formPass) {
+                    localStorage.setItem("username", dbUser.username);
+                    navigate("/");
+                    window.location.reload();
+                }
+                else {
+                    alert("Incorrect password.");
+                }
             }
             else {
-                alert("Incorrect password.");
+                alert("There exists no account with this username.");
             }
-        }
-        else {
-            alert("There exists no account with this username.");
         }
     }, [dbUser]);
 
