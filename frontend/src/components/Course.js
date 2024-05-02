@@ -82,6 +82,44 @@ const Course = ({ username }) => {
         }
     }
 
+
+    // TODO
+    // function DeleteReview() {
+
+    //     const getProduct = data => {
+    //         try {
+    //             fetch(`http://localhost:8081/${data.productid}`)
+    //                 .then((response) => response.json())
+    //                 .then((data) => {
+    //                     console.log("Show Catalog of Products :");
+    //                     console.log(data);
+    //                     setOneProduct([data]);
+    //                     setPutViewer(true);
+    //                 });
+    //         }
+    //         catch {
+    //             console.log("error");
+    //         }
+    //     }
+
+    //     const deleteItem = () => {
+    //         try {
+    //             fetch(`http://localhost:8081/${oneProduct[0].id}`, { method: "DELETE" })
+    //                 .then((response) => response.json())
+    //                 .then((data) => {
+    //                     console.log(data);
+    //                 });
+    //             alert("Item successfully deleted!");
+    //         }
+    //         catch {
+    //             console.log("error");
+    //         }
+    //     }
+    //     return (
+    //         <div></div>
+    //     );
+    // }
+
     const courseInfo = oneCourse.map((course) => (
         <div class="text-center">
             <div class="h-100 p-5 text-bg-dark rounded-3">
@@ -165,10 +203,16 @@ const Course = ({ username }) => {
                 <div class="review-data">
                     <p>{review.body}</p>
                 </div>
+                <div className="edit-button">
+                    <button>Edit</button>
+                </div>
+                <div className="delete-button">
+                    <button>Delete</button>
+                </div>
             </div>
         </div>
     ));
-
+    
     return (
         <div className="container">
             <div className="container row align-items-md-stretch">
