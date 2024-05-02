@@ -76,7 +76,28 @@ app.get("/users", async (req, res) => {
     }
     catch {
         res.status(500);
+        res.send();
+    }
+});
+
+//get single user
+app.get("/user/:username", async (req, res) => {
+    try {
+        const username = req.params.username;
+
+        await client.connect();
+        console.log("Node connected successfully to GET USER MongoDB");
+
+        const query = {"username": username};
+
+        const results = await db.collection("users").findOne(query);
+
+        res.status(200);
         res.send(results);
+    }
+    catch {
+        res.status(500);
+        res.send();
     }
 });
 

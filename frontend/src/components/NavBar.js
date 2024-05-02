@@ -16,6 +16,7 @@ class NavBar extends Component {
                         {/* <Link to="/getCatalog" className="nav-link fw-bold py-1 px-0">Courses</Link> */}
                         {/* <Link to="/flowcharts" className="nav-link fw-bold py-1 px-0">Flowcharts</Link> */}
                         <Link to="/about" className="nav-link fw-bold py-1 px-0">About</Link>
+                        <Link to="/login" className="nav-link fw-bold py-1 px-0">Log In/Register</Link>
                     </nav>
                 </div>
             </header>

@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import Course from "./components/Course"
+import Login from "./components/Login"
 import About from "./components/About";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/course/:courseCode" element={<Course />}/>
+            <Route path="/login" element={<Login />}/>
           </Routes>
           <Footer />
         </div>
