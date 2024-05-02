@@ -373,12 +373,7 @@ p {
 }
 
 
-.course-container {
-    background-color: rgba(24, 29, 31, 0.7);
-    padding: 10px;
 
-    border-radius: 15px;
-}
 
 
 .py-5 {
@@ -418,6 +413,13 @@ p {
     /* Add a shadow when the input is focused */
 }
 
+.course-container {
+    background-color: rgba(24, 29, 31, 0.7);
+    padding: 10px;
+
+    border-radius: 15px;
+}
+
 .course-container:hover {
     background-color: rgba(61, 72, 77, 0.7);
     /* Change the background color on hover */
@@ -427,15 +429,43 @@ p {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 300px;
+    width: 200px;
     border-right: 1px solid grey;
 }
 
 .review-data {
     position: absolute;
-    width: 750px;
-    margin-left: 320px;
+    top: 0;
+    bottom: 0;
+    padding-top: 10px;
+    width: 320px;
+    margin-left: 220px;
     text-align: left;
+    border-right: 1px solid grey;
+}
+
+.course-container button {
+    border-radius: 5px;
+    font-weight: 500;
+    width: 70px;
+
+}
+
+.edit-button {
+    position: absolute;
+    width: 750px;
+    margin-left: 250px;
+    padding-top: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button {
+    position: absolute;
+    width: 750px;
+    margin-left: 250px;
+    padding-top: 16px;
+    top: 60px;
+    
 }
 
 .star {
@@ -449,61 +479,12 @@ p {
     padding-bottom: 0.5rem !important;
 }
 
-/* .nav-link.active {
-    color: gold;
-} */
-
-/* .nav-masthead .active {
-    color: #fdc82f;
-    border-bottom-color: #fdc82f;
-} */
-
-/* footer {
-    bottom: 0;
-    width: 100%;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    padding: 20px;
-    padding-top: 60px;
-} */
-
-
-
-/* 
-USED WITH REACT COMPONENTS
-.custom-navbar .nav-link,
-.custom-navbar .navbar-brand {
-  color: white;
-} */
-
-/* .px-3 {
-    top: 50%;
-} */
-
-
-/* Search Box */
-
-
-
-/* body{
-        background-color:#eee;
-        font-family: "Poppins", sans-serif;
-        font-weight: 300;
-       } */
-
-/* .height{
-        height: 100vh;
-       } */
-
-
 .search {
     position: relative;
     box-shadow: 0 0 40px rgba(51, 51, 51, .1);
     margin: 5rem;
     margin-top: 20rem;
-    
+
 
 }
 
@@ -560,154 +541,156 @@ USED WITH REACT COMPONENTS
 .table-container {
     max-width: 800px;
     margin: 6rem;
-  }
-  
-  table {
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
     border-radius: 10px;
     /* background-color: rgb(42, 46, 51) !important; */
-  }
-  
-  th, td {
+}
+
+th,
+td {
     padding: 15px !important;
     vertical-align: center !important;
     text-align: center;
     color: white !important;
     min-width: 200px;
     background-color: transparent !important;
-  }
-  
-  td {
+}
+
+td {
     padding-top: 40px !important;
-    background-color: transparent !important ;
+    background-color: transparent !important;
     color: white !important;
-  }
-  
-  /* tr:nth-child(even) {
+}
+
+/* tr:nth-child(even) {
     background-color: #f2f2f207;
   } */
-  
-  /* TODO - Hover does not have rounded edges */
-  tr:hover {
+
+/* TODO - Hover does not have rounded edges */
+tr:hover {
     background-color: rgb(66, 72, 79);
-  }
+}
 
 
-  /* course page */
-  * {
+/* course page */
+* {
     box-sizing: border-box;
-  }
+}
 
-  .heading {
+.heading {
     font-size: 25px;
     margin-right: 25px;
-  }
+}
 
-  .fa {
+.fa {
     font-size: 25px;
-  }
+}
 
-  .checked {
+.checked {
     color: orange;
-  }
+}
 
-  /* Three column layout */
-  .side {
+/* Three column layout */
+.side {
     float: left;
     width: 15%;
     margin-top: 10px;
-  }
+}
 
-  .middle {
+.middle {
     float: left;
     width: 70%;
     margin-top: 10px;
-  }
+}
 
-  /* Place text to the right */
-  .right {
+/* Place text to the right */
+.right {
     text-align: right;
-  }
+}
 
-  /* Clear floats after the columns */
-  .row:after {
+/* Clear floats after the columns */
+.row:after {
     content: "";
     display: table;
     clear: both;
-  }
+}
 
-  /* The bar container */
-  .bar-container {
+/* The bar container */
+.bar-container {
     width: 100%;
     background-color: #f1f1f1;
     text-align: center;
     color: white;
-  }
+}
 
-  /* Individual bars */
-  .bar-5 {
+/* Individual bars */
+.bar-5 {
     height: 18px;
     background-color: gray;
-  }
+}
 
-  .bar-4 {
+.bar-4 {
     height: 18px;
     background-color: gray;
-  }
+}
 
-  .bar-3 {
+.bar-3 {
     height: 18px;
     background-color: gray;
-  }
+}
 
-  .bar-2 {
+.bar-2 {
     height: 18px;
     background-color: gray;
-  }
+}
 
-  .bar-1 {
+.bar-1 {
     height: 18px;
     background-color: gray;
-  }
+}
 
-  /* Responsive layout - make the columns stack on top of each other instead of next to each other */
-  @media (max-width: 400px) {
+/* Responsive layout - make the columns stack on top of each other instead of next to each other */
+@media (max-width: 400px) {
 
     .side,
     .middle {
-      width: 100%;
+        width: 100%;
     }
 
     /* Hide the right column on small screens */
     .right {
-      display: none;
+        display: none;
     }
-  }
+}
 
-  form {
+form {
     align-items: center;
     width: 100%;
     /* margin-left: 10px;
     margin-right: 10px; */
-  }
-  input {
+}
+
+input {
     width: 100%;
-  }
-  
-  .form-container {
-    padding: 5px;
-    border-radius: 10px;
-    background-color: rgb(50, 55, 60) !important;
-  }
+}
 
-  label {
+.form-container {
+    padding: 15px;
+    border-radius: 15px;
+    background-color: rgba(24, 29, 31, 0.7) !important;
+}
+
+label {
     margin-top: 8px;
-  }
+}
 
-  .form-submit {
+.form-submit {
     border-radius: 4px;
     min-width: 100px;
     margin-top: 8px;
     margin-bottom: 8px;
-  }
+}
