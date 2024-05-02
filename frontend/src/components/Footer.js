@@ -8,9 +8,8 @@ class Footer extends Component {
 
         return (
             <footer className="mt-auto text-white-50 text-center">
-                <p>This website is designed with the intent to give every student the ability to seemlessly find any required course in their major at Iowa State.
-                </p>
-                <p>Website made by <strong>Nathan Krieger</strong> & <strong>Rocco Zollo</strong></p>
+            
+                <p className="pt-5">Website made by <strong>Nathan Krieger</strong> & <strong>Rocco Zollo</strong><br />Our intention is to give every student the ability to seemlessly view and leave ratings on any course in at Iowa State.</p>
             </footer>
 
         );
