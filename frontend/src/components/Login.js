@@ -8,18 +8,22 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const [user, setUser] = useState({});
+    const [dbUser, setdbUser] = useState({});
+    const [formUser, setFormUser] = useState("");
+    const [formPass, setFormPass] = useState("");
 
     const logIn = async data => {
         fetch(`http://localhost:8081/user/${data.username}`)
             .then((response) => response.json())
             .then((data) => {
-                setUser(data);
+                setdbUser(data);
         });
+    }
 
-        if (JSON.stringify(user) !== '{}') {
-            if (user.username === data.username && user.password === data.password) {
-                localStorage.setItem("username", user.username);
+    useEffect(() => {
+        if (JSON.stringify(dbUser) !== '{}') {
+            if (dbUser.username === formUser && dbUser.password === formPass) {
+                localStorage.setItem("username", dbUser.username);
                 navigate("/");
             }
             else {
@@ -29,7 +33,7 @@ const Login = () => {
         else {
             alert("There exists no account with this username.");
         }
-    }
+    }, [dbUser]);
 
     const accRegister = async data => {
         const payload = {
@@ -56,7 +60,7 @@ const Login = () => {
                 <div class="row">
                     <div className="col">
                         <label for="username">Username</label>
-                        <input {...register("username", { required: true })} placeholder="Username" className="form-control" autoFocus />
+                        <input {...register("username", { required: true })} onChange={(e) => setFormUser(e.target.value)} placeholder="Username" className="form-control" autoFocus />
                         {errors.username && <p className="text-danger">Username is required.</p>}
                     </div>
                 </div>
@@ -64,7 +68,7 @@ const Login = () => {
                     <div class="row">
                         <div className="col">
                             <label for="password">Password</label>
-                            <input {...register("password", { required: true })} placeholder="Password" className="form-control" autoFocus />
+                            <input {...register("password", { required: true })} onChange={(e) => setFormPass(e.target.value)} placeholder="Password" className="form-control" autoFocus />
                             {errors.password && <p className="text-danger">Password is required.</p>}
                         </div>
                     </div>
