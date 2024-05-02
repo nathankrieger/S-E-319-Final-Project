@@ -17,8 +17,8 @@ const Login = () => {
                 setUser(data);
         });
 
-        if (user) {
-            if (user.username == data.username && user.password == data.password) {
+        if (JSON.stringify(user) !== '{}') {
+            if (user.username === data.username && user.password === data.password) {
                 localStorage.setItem("username", user.username);
                 navigate("/");
             }
