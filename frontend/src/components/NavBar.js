@@ -16,6 +16,9 @@ class NavBar extends Component {
                         {/* <Link to="/getCatalog" className="nav-link fw-bold py-1 px-0">Courses</Link> */}
                         {/* <Link to="/flowcharts" className="nav-link fw-bold py-1 px-0">Flowcharts</Link> */}
                         <Link to="/about" className="nav-link fw-bold py-1 px-0">About</Link>
+                        {!localStorage.getItem("username") && <Link to="/login" className="nav-link fw-bold py-1 px-0">Log In/Register</Link>}
+                        {localStorage.getItem("username") && <Link onClick={function(){localStorage.removeItem("username"); window.location.reload();}} className="nav-link fw-bold py-1 px-0">Log Out</Link>}
+                        {localStorage.getItem("username") && <Link className="nav-link fw-bold py-1 px-0">Hello, {localStorage.getItem("username")}!</Link>}
                     </nav>
                 </div>
             </header>
