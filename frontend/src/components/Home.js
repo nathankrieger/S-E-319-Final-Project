@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import Course from "./Course"
 import '../style.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -30,43 +28,26 @@ const Home = () => {
         setSearchTerm(event.target.value);
     };
 
-    // const listItems = searchResults.map((course) => (
-    //     <div className="m-5 course-item" key={course.courseCode}>
-    //       <Link to={`/course/${course.courseCode}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-    //         <h2>{course.courseCode}</h2>
-    //         <p>Title: {course.courseTitle}</p>
-    //         <p>Credits: {course.credits}</p>
-    //       </Link>
-    //     </div>
-    //   ));
     const listItems = searchResults.slice(0, 100).map((course) => (
-            
-                
         <tr key={course.courseCode}>
-        <td>
-            <Link to={`/course/${course.courseCode}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                {course.courseCode}
-            </Link>
-        </td>
-        <td>{course.courseTitle}</td>
-        <td>{course.credits}</td>
-    </tr>
-                
-            
-        
+            <td>
+                <Link to={`/course/${course.courseCode}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    {course.courseCode}
+                </Link>
+            </td>
+            <td>
+                <Link to={`/course/${course.courseCode}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    {course.courseTitle}
+                </Link>
+            </td>
+            <td><Link to={`/course/${course.courseCode}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                {course.credits}
+            </Link></td>
+        </tr>
     ));
-
 
     return (
         <div className="container text-center">
-
-
-
-
-            
-
-
-            {/* <div class="row height d-flex justify-content-center align-items-center"> */}
             <div class="col justify-content-center">
                 <div class="search">
                     {/* <i class="fa fa-search"></i> */}
@@ -79,7 +60,6 @@ const Home = () => {
                     />
                 </div>
             </div>
-            {/* </div> */}
             <div className="table-responsive">
                 <table className="table table-borderless table-hover">
                     <thead>
@@ -94,9 +74,6 @@ const Home = () => {
                     </tbody>
                 </table>
             </div>
-
-            
-
         </div>
     );
 };
