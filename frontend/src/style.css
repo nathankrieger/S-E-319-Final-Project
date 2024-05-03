@@ -514,7 +514,7 @@ p {
 
 }
 
-.search button {
+/* .search button {
 
     position: absolute;
     top: 5px;
@@ -523,7 +523,7 @@ p {
     width: 110px;
     background: rgb(104, 104, 254);
 
-}
+} */
 
 .course-item {
     transition: transform 0.2s ease-in-out;
@@ -675,7 +675,7 @@ form {
 }
 
 input {
-    width: 100%;
+    width: 100% !important; /* fixes snapping issue */
 }
 
 .form-container {
@@ -694,3 +694,11 @@ label {
     margin-top: 8px;
     margin-bottom: 8px;
 }
+
+.login-container {
+    padding: 15px;
+    margin: 5rem;
+    background-color: rgba(24, 29, 31, 0.7);
+    border-radius: 15px;
+}
+
