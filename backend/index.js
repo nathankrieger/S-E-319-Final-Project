@@ -249,15 +249,15 @@ app.delete("/:course/:id/reviews", async (req, res) => {
 app.put("/:course/:id/reviews", async (req, res) => {
     try {
         courseCode = decodeURIComponent(req.params.course);
-        revId = req.params.id;
+        id = req.params.id;
 
         review = req.body;
 
         await client.connect();
-        console.log("Node connected successfully to POST REVIEW MongoDB");
+        console.log("Node connected successfully to PUT REVIEW MongoDB");
 
-        const query = {"courseCode": courseCode};
-        const results = await db.collection("courses").findOneAndUpdate(query, {$set: {'reviews.body': review.body, 'reviews.rating': review.rating}});
+        const query = {"courseCode": courseCode, "reviews._id": id};
+        const results = await db.collection("courses").findOneAndUpdate(query, {$set: {'reviews.$.body': review.body, 'reviews.$.rating': review.rating}});
 
         res.status(200);
         res.send(results);

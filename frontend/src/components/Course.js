@@ -17,6 +17,7 @@ const Course = ({ username }) => {
     const [oneCourse, setOneCourse] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [numRatings, setNumRatings] = useState([0, 0, 0, 0, 0]);
+    const [editing, setEditing] = useState(-1);
 
     useEffect(() => {
         fetch(`http://localhost:8081/courses/${course}`)
@@ -79,14 +80,15 @@ const Course = ({ username }) => {
         }
     }
 
-    const editReview = index => {
+    const editReview = data => {
         try {
-            fetch(`http://localhost:8081/${reviews[index]._id}`)
+            fetch(`http://localhost:8081/${reviews[editing]._id}`)
                 .then((response) => response.json())
                 .then((data) => {
                     console.log("Show Catalog of Products :");
                     console.log(data);
                 });
+            setEditing(-1);
         }
         catch {
             console.log("error");
@@ -180,18 +182,42 @@ const Course = ({ username }) => {
     const reviewList = reviews.map((review, index) => (
         <div class="row g-4 py-5">
             <div class="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
-                <div class="user-info">
+                {index !== editing && <div class="user-info">
                     <h4 style={{ padding: "10px" }}>{review.user}</h4>
                     <img id="star1" class="star" src={process.env.PUBLIC_URL + "/star.svg"} />
                     <img id="star2" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 2 ? { visibility: "hidden" } : {}} />
                     <img id="star3" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 3 ? { visibility: "hidden" } : {}} />
                     <img id="star4" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 4 ? { visibility: "hidden" } : {}} />
                     <img id="star5" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 5 ? { visibility: "hidden" } : {}} />
-                </div>
+                </div>}
+                {index === editing && <div class="user-info">
+                    <form className="container" onSubmit={handleSubmit(editReview)}>
+                        <div class="form-group">
+                            <label for="rating">Rate 1 - 5 Stars</label>
+                            
+                            <input {...register("rating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Enter Rating..." className="form-control" autoFocus />
+                                {errors.rating && <p className="text-danger">Rating is required.</p>}
+
+                        </div>
+                        <div class="form-group">
+                            <label for="review">Write a Review</label>
+                                <textarea
+                                    {...register("review", {
+                                        required: true,
+                                    })}
+                                    placeholder="Enter Review... "
+                                    className="form-control"
+                                    rows="3"
+                                    autoFocus
+                                />
+                            </div>
+                            <button type="submit" class="form-submit">Submit</button>
+                        </form>
+                    </div>}
                 <div class="review-data">
                     <p>{review.body}</p>
                 </div>
-                {!(review.username === localStorage.username) && <div className="edit-button" onClick={() => editReview(index)}>
+                {!(review.username === localStorage.username) && <div className="edit-button" onClick={() => setEditing(index)}>
                     <button>Edit</button>
                 </div>}
                 {!(review.username === localStorage.username) && <div className="delete-button" onClick={() => deleteReview(index)}>
