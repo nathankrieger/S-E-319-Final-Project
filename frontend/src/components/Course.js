@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import { ObjectId } from 'bson';
 import '../style.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -14,7 +15,6 @@ const Course = ({ username }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const [oneCourse, setOneCourse] = useState([]);
-    const [ratings, setRatings] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [numRatings, setNumRatings] = useState([0, 0, 0, 0, 0]);
 
@@ -23,12 +23,6 @@ const Course = ({ username }) => {
             .then((response) => response.json())
             .then((data) => {
                 setOneCourse([data]);
-            });
-
-        fetch(`http://localhost:8081/${course}/ratings`)
-            .then((response) => response.json())
-            .then((data) => {
-                setRatings(data);
             });
 
         fetch(`http://localhost:8081/${course}/reviews`)
@@ -42,32 +36,35 @@ const Course = ({ username }) => {
 
     useEffect(() => {
         setRatingBars();
-    }, [ratings]);
+    }, [reviews]);
 
     function setRatingBars() {
         var tmp = [0, 0, 0, 0, 0];
-        for (var i = 0; i < ratings.length; i++) {
-            tmp[ratings[i].rating - 1]++;
+        for (var i = 0; i < reviews.length; i++) {
+            tmp[reviews[i].rating - 1]++;
         }
         setNumRatings(tmp);
     }
 
     function getAverageRating() {
-        if (ratings.length == 0) {
+        if (reviews.length == 0) {
             return 0;
         }
         else {
             var sum = 0;
-            for (var i = 0; i < ratings.length; i++) {
-                sum += ratings[i].rating;
+            for (var i = 0; i < reviews.length; i++) {
+                sum += reviews[i].rating;
             }
-            return (sum / ratings.length).toFixed(2);
+            return (sum / reviews.length).toFixed(2);
         }
     }
 
     const submitReview = async data => {
+        const id = new ObjectId();
+        console.log(id.toString);
         const response = await fetch(`http://localhost:8081/${course}/${localStorage.getItem("username")}/reviews`, {
             method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
+                "id": id.toString(),
                 "title": "tmp",
                 "body": data.review,
                 "rating": parseInt(data.rating)
@@ -82,43 +79,33 @@ const Course = ({ username }) => {
         }
     }
 
+    const editReview = index => {
+        try {
+            fetch(`http://localhost:8081/${reviews[index]._id}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("Show Catalog of Products :");
+                    console.log(data);
+                });
+        }
+        catch {
+            console.log("error");
+        }
+    }
 
-    // TODO
-    // function DeleteReview() {
-
-    //     const getProduct = data => {
-    //         try {
-    //             fetch(`http://localhost:8081/${data.productid}`)
-    //                 .then((response) => response.json())
-    //                 .then((data) => {
-    //                     console.log("Show Catalog of Products :");
-    //                     console.log(data);
-    //                     setOneProduct([data]);
-    //                     setPutViewer(true);
-    //                 });
-    //         }
-    //         catch {
-    //             console.log("error");
-    //         }
-    //     }
-
-    //     const deleteItem = () => {
-    //         try {
-    //             fetch(`http://localhost:8081/${oneProduct[0].id}`, { method: "DELETE" })
-    //                 .then((response) => response.json())
-    //                 .then((data) => {
-    //                     console.log(data);
-    //                 });
-    //             alert("Item successfully deleted!");
-    //         }
-    //         catch {
-    //             console.log("error");
-    //         }
-    //     }
-    //     return (
-    //         <div></div>
-    //     );
-    // }
+    const deleteReview = index => {
+        try {
+            fetch(`http://localhost:8081/${course}/${reviews[index]._id}/reviews`, { method: "DELETE" })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                });
+            alert("Item successfully deleted!");
+        }
+        catch {
+            console.log("error");
+        }
+    }
 
     const courseInfo = oneCourse.map((course) => (
         <div class="text-center">
@@ -189,7 +176,7 @@ const Course = ({ username }) => {
         </div>
     );
 
-    const reviewList = reviews.map((review) => (
+    const reviewList = reviews.map((review, index) => (
         <div class="row g-4 py-5">
             <div class="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
                 <div class="user-info">
@@ -206,7 +193,7 @@ const Course = ({ username }) => {
                 <div className="edit-button">
                     <button>Edit</button>
                 </div>
-                <div className="delete-button">
+                <div className="delete-button" onClick={() => deleteReview(index)}>
                     <button>Delete</button>
                 </div>
             </div>
@@ -225,7 +212,7 @@ const Course = ({ username }) => {
                         <span className="fa fa-star checked"></span>
                         <span className="fa fa-star checked"></span>
                         <span className="fa fa-star"></span>
-                        <p><strong>{getAverageRating()}</strong> average based on <strong>{ratings.length}</strong> reviews.</p>
+                        <p><strong>{getAverageRating()}</strong> average based on <strong>{reviews.length}</strong> reviews.</p>
                         <hr style={{ border: "3px solid #f1f1f1" }} />
 
                         <div className="row">
@@ -234,7 +221,7 @@ const Course = ({ username }) => {
                             </div>
                             <div className="middle">
                                 <div className="bar-container">
-                                    <div className="bar-5" style={{ width: `${(numRatings[4] / ratings.length) * 100}%` }}></div>
+                                    <div className="bar-5" style={{ width: `${(numRatings[4] / reviews.length) * 100}%` }}></div>
                                 </div>
                             </div>
                             <div className="side right">
@@ -245,7 +232,7 @@ const Course = ({ username }) => {
                             </div>
                             <div className="middle">
                                 <div className="bar-container">
-                                    <div className="bar-4" style={{ width: `${(numRatings[3] / ratings.length) * 100}%` }}></div>
+                                    <div className="bar-4" style={{ width: `${(numRatings[3] / reviews.length) * 100}%` }}></div>
                                 </div>
                             </div>
                             <div className="side right">
@@ -256,7 +243,7 @@ const Course = ({ username }) => {
                             </div>
                             <div className="middle">
                                 <div className="bar-container">
-                                    <div className="bar-3" style={{ width: `${(numRatings[2] / ratings.length) * 100}%` }}></div>
+                                    <div className="bar-3" style={{ width: `${(numRatings[2] / reviews.length) * 100}%` }}></div>
                                 </div>
                             </div>
                             <div className="side right">
@@ -267,7 +254,7 @@ const Course = ({ username }) => {
                             </div>
                             <div className="middle">
                                 <div className="bar-container">
-                                    <div className="bar-2" style={{ width: `${(numRatings[1] / ratings.length) * 100}%` }}></div>
+                                    <div className="bar-2" style={{ width: `${(numRatings[1] / reviews.length) * 100}%` }}></div>
                                 </div>
                             </div>
                             <div className="side right">
@@ -278,7 +265,7 @@ const Course = ({ username }) => {
                             </div>
                             <div className="middle">
                                 <div className="bar-container">
-                                    <div className="bar-1" style={{ width: `${(numRatings[0] / ratings.length) * 100}%` }}></div>
+                                    <div className="bar-1" style={{ width: `${(numRatings[0] / reviews.length) * 100}%` }}></div>
                                 </div>
                             </div>
                             <div className="side right">
