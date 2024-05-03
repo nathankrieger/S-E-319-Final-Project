@@ -8,6 +8,7 @@ const Login = () => {
 
     const navigate = useNavigate();
 
+    const [login, setLogin] = useState(true);
     const [dbUser, setdbUser] = useState({});
     const [formUser, setFormUser] = useState("");
     const [formPass, setFormPass] = useState("");
@@ -16,24 +17,27 @@ const Login = () => {
         fetch(`http://localhost:8081/user/${data.username}`)
             .then((response) => response.json())
             .then((data) => {
+                setLogin(true);
                 setdbUser(data);
         });
     }
 
     useEffect(() => {
-        if (JSON.stringify(dbUser) !== '{}') {
-            if (dbUser.error !== "Object not found") {
-                if (dbUser.username === formUser && dbUser.password === formPass) {
-                    localStorage.setItem("username", dbUser.username);
-                    navigate("/");
-                    window.location.reload();
+        if (login) {
+            if (JSON.stringify(dbUser) !== '{}') {
+                if (dbUser.error !== "Object not found") {
+                    if (dbUser.username === formUser && dbUser.password === formPass) {
+                        localStorage.setItem("username", dbUser.username);
+                        navigate("/");
+                        window.location.reload();
+                    }
+                    else {
+                        alert("Incorrect password.");
+                    }
                 }
                 else {
-                    alert("Incorrect password.");
+                    alert("There exists no account with this username.");
                 }
-            }
-            else {
-                alert("There exists no account with this username.");
             }
         }
     }, [dbUser]);

@@ -101,6 +101,7 @@ const Course = ({ username }) => {
                     console.log(data);
                 });
             alert("Item successfully deleted!");
+            window.location.reload();
         }
         catch {
             console.log("error");
@@ -190,12 +191,12 @@ const Course = ({ username }) => {
                 <div class="review-data">
                     <p>{review.body}</p>
                 </div>
-                <div className="edit-button">
+                {!(review.username === localStorage.username) && <div className="edit-button" onClick={() => editReview(index)}>
                     <button>Edit</button>
-                </div>
-                <div className="delete-button" onClick={() => deleteReview(index)}>
+                </div>}
+                {!(review.username === localStorage.username) && <div className="delete-button" onClick={() => deleteReview(index)}>
                     <button>Delete</button>
-                </div>
+                </div>}
             </div>
         </div>
     ));
@@ -275,7 +276,7 @@ const Course = ({ username }) => {
                     </div>
                     <div className="col">
                     <div className="row g-4 py-5">
-                        {addReview}
+                        {localStorage.username && addReview}
                         <h1 className="display-5 fw-bold">Reviews</h1>
                         {reviewList}
                     </div>
