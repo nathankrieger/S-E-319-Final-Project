@@ -12,7 +12,8 @@ const Course = ({ username }) => {
     const params = useParams();
     const course = params.courseCode;
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register: newRegister, handleSubmit: handleNewSubmit, formState: { errors: newErrors } } = useForm();
+    const { register: editRegister, handleSubmit: handleEditSubmit, formState: { errors: editErrors } } = useForm();
 
     const [oneCourse, setOneCourse] = useState([]);
     const [reviews, setReviews] = useState([]);
@@ -159,18 +160,18 @@ const Course = ({ username }) => {
                 {errors.rating && <p className="text-danger">Rating is required.</p>}
 
             </form> */}
-            <form className="container" onSubmit={handleSubmit(submitReview)}>
+            <form className="container" onSubmit={handleNewSubmit(submitReview)}>
                 <div class="form-group">
                     <label for="rating">Rate 1 - 5 Stars</label>
                     
-                    <input {...register("rating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Enter Rating..." className="form-control" autoFocus />
-                        {errors.rating && <p className="text-danger">Rating is required.</p>}
+                    <input {...newRegister("rating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Enter Rating..." className="form-control" autoFocus />
+                        {newErrors.rating && <p className="text-danger">Rating is required.</p>}
 
                 </div>
                 <div class="form-group">
                     <label for="review">Write a Review</label>
                     <textarea
-                        {...register("review", {
+                        {...newRegister("review", {
                             required: true,
                         })}
                         placeholder="Enter Review... "
@@ -209,13 +210,13 @@ const Course = ({ username }) => {
 
                 {index === editing &&
                 <div>
-                    <form className="container" onSubmit={handleSubmit(editReview)}>
+                    <form className="container" onSubmit={handleEditSubmit(editReview)}>
                         <div class="user-info">
                             <div class="form-group">
                                 <label for="newRating">Rate 1 - 5 Stars</label>
                                 
-                                <input {...register("newRating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Enter rating..." className="form-control" autoFocus />
-                                    {errors.newRating && <p className="text-danger">Rating is required.</p>}
+                                <input {...editRegister("newRating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Enter rating..." className="form-control" autoFocus />
+                                    {editErrors.newRating && <p className="text-danger">Rating is required.</p>}
 
                             </div>
                         </div>
@@ -223,7 +224,7 @@ const Course = ({ username }) => {
                         <div class="form-group">
                             <label for="newReview">Write a Review</label>
                             <textarea
-                                {...register("newReview", {
+                                {...editRegister("newReview", {
                                     required: true,
                                 })}
                                 placeholder="Enter review..."
