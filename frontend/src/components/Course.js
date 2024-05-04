@@ -21,6 +21,7 @@ const Course = ({ username }) => {
     const [editing, setEditing] = useState(-1);
 
     useEffect(() => {
+        console.log(localStorage.username);
         fetch(`http://localhost:8081/courses/${course}`)
             .then((response) => response.json())
             .then((data) => {
@@ -38,6 +39,7 @@ const Course = ({ username }) => {
 
     useEffect(() => {
         setRatingBars();
+        console.log(reviews);
     }, [reviews]);
 
     function setRatingBars() {
@@ -148,6 +150,7 @@ const Course = ({ username }) => {
                         rows="3"
                         autoFocus
                     />
+                    {newErrors.review && <p className="text-danger">Review is required.</p>}
                 </div>
                 <button type="submit" class="form-submit">Submit</button>
             </form>
@@ -165,13 +168,13 @@ const Course = ({ username }) => {
                     <img id="star4" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 4 ? { visibility: "hidden" } : {}} />
                     <img id="star5" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 5 ? { visibility: "hidden" } : {}} />
                 </div>
-                <div class="review-data">
-                    <p>{review.body}</p>
+                <div class="review-data" style={{wordWrap: "break-word"}}>
+                    <p style={{paddingRight: "10px"}}>{review.body}</p>
                 </div>
-                {!(review.username === localStorage.username) && <div className="edit-button" onClick={() => setEditing(index)}>
+                {review.user === localStorage.username && <div className="edit-button" onClick={() => setEditing(index)}>
                     <button>Edit</button>
                 </div>}
-                {!(review.username === localStorage.username) && <div className="delete-button" onClick={() => deleteReview(index)}>
+                {review.user === localStorage.username && <div className="delete-button" onClick={() => deleteReview(index)}>
                     <button>Delete</button>
                 </div>}
             </div>}
@@ -195,6 +198,7 @@ const Course = ({ username }) => {
                         rows="3"
                         autoFocus
                         style={{width: "94%"}}/>
+                    {editErrors.newReview && <p className="text-danger">Review is required.</p>}
                 </div>
                 <div class="edit-button">
                     <button type="submit">Submit</button>
