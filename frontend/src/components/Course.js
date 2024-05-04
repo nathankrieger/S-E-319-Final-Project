@@ -129,37 +129,6 @@ const Course = ({ username }) => {
     const addReview = (
         <div className="form-container">
              <h3 className="mb-5">Add a review:</h3>
-            {/*<form className="container m-5 review-form" onSubmit={handleSubmit(submitReview)}>
-                <div class="row">
-                    <div className="col">
-                        <label for="rating">Rating</label>
-                        <input {...register("rating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Rating" className="form-control" autoFocus />
-                        {errors.rating && <p className="text-danger">Rating is required.</p>}
-                    </div>
-                </div>
-                <div class="row">
-                    <div className="col">
-                        <label htmlFor="review">Review</label>
-                        <textarea
-                            {...register("review", {
-                                required: true,
-                            })}
-                            placeholder="Review"
-                            className="form-control"
-                            rows="3"
-                            autoFocus
-                        />
-                        {errors.review && <p className="text-danger">Please enter a review for the course.</p>}
-                    </div>
-                </div>
-                <button type="submit" className="btn btn-primary mt-3">Submit</button>
-            </form> */}
-
-            {/* <form className="container" onSubmit={handleSubmit(submitReview)}>
-                <input {...register("rating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Rating" className="form-control" autoFocus />
-                {errors.rating && <p className="text-danger">Rating is required.</p>}
-
-            </form> */}
             <form className="container" onSubmit={handleNewSubmit(submitReview)}>
                 <div class="form-group">
                     <label for="rating">Rate 1 - 5 Stars</label>
@@ -187,62 +156,54 @@ const Course = ({ username }) => {
 
     const reviewList = reviews.map((review, index) => (
         <div class="row g-4 py-5">
-            <div class="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
-                {index !== editing && <div>
-                    <div class="user-info">
-                        <h4 style={{ padding: "10px" }}>{review.user}</h4>
-                        <img id="star1" class="star" src={process.env.PUBLIC_URL + "/star.svg"} />
-                        <img id="star2" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 2 ? { visibility: "hidden" } : {}} />
-                        <img id="star3" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 3 ? { visibility: "hidden" } : {}} />
-                        <img id="star4" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 4 ? { visibility: "hidden" } : {}} />
-                        <img id="star5" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 5 ? { visibility: "hidden" } : {}} />
-                    </div>
-                    <div class="review-data">
-                        <p>{review.body}</p>
-                    </div>
-                    {!(review.username === localStorage.username) && <div className="edit-button" onClick={() => setEditing(index)}>
-                        <button>Edit</button>
-                    </div>}
-                    {!(review.username === localStorage.username) && <div className="delete-button" onClick={() => deleteReview(index)}>
-                        <button>Delete</button>
-                    </div>}
-                </div>}
-
-                {index === editing &&
-                <div>
-                    <form className="container" onSubmit={handleEditSubmit(editReview)}>
-                        <div class="user-info">
-                            <div class="form-group">
-                                <label for="newRating">Rate 1 - 5 Stars</label>
-                                
-                                <input {...editRegister("newRating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Enter rating..." className="form-control" autoFocus />
-                                    {editErrors.newRating && <p className="text-danger">Rating is required.</p>}
-
-                            </div>
-                        </div>
-                    <div class="review-data">
-                        <div class="form-group">
-                            <label for="newReview">Write a Review</label>
-                            <textarea
-                                {...editRegister("newReview", {
-                                    required: true,
-                                })}
-                                placeholder="Enter review..."
-                                className="form-control"
-                                rows="3"
-                                autoFocus
-                            />
-                        </div>
-                    </div>
-                    <div class="edit-button">
-                        <button type="submit" class="form-submit">Submit</button>
-                    </div>
-                </form>
-                <div class="delete-button">
-                    <button onClick={() => setEditing(-1)}>Cancel</button>
+            {index !== editing && <div class="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
+                <div class="user-info">
+                    <h4 style={{ padding: "10px" }}>{review.user}</h4>
+                    <img id="star1" class="star" src={process.env.PUBLIC_URL + "/star.svg"} />
+                    <img id="star2" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 2 ? { visibility: "hidden" } : {}} />
+                    <img id="star3" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 3 ? { visibility: "hidden" } : {}} />
+                    <img id="star4" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 4 ? { visibility: "hidden" } : {}} />
+                    <img id="star5" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 5 ? { visibility: "hidden" } : {}} />
                 </div>
+                <div class="review-data">
+                    <p>{review.body}</p>
+                </div>
+                {!(review.username === localStorage.username) && <div className="edit-button" onClick={() => setEditing(index)}>
+                    <button>Edit</button>
                 </div>}
+                {!(review.username === localStorage.username) && <div className="delete-button" onClick={() => deleteReview(index)}>
+                    <button>Delete</button>
+                </div>}
+            </div>}
+
+            {index === editing &&
+            <div class="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
+                <form onSubmit={handleEditSubmit(editReview)} style={{display: "contents"}}>
+                    <div class="user-info">
+                        <label for="newRating" style={{marginTop: "18px"}}>Rate 1 - 5 Stars</label>
+                        <input {...editRegister("newRating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Enter rating..." className="form-control edit-rating" autoFocus />
+                            {editErrors.newRating && <p className="text-danger">Rating is required.</p>}
+                    </div>
+                <div class="review-data">
+                    <label for="newReview">Write a Review</label>
+                    <textarea
+                        {...editRegister("newReview", {
+                            required: true,
+                        })}
+                        placeholder="Enter review..."
+                        className="form-control"
+                        rows="3"
+                        autoFocus
+                        style={{width: "94%"}}/>
+                </div>
+                <div class="edit-button">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+            <div class="delete-button">
+                <button onClick={() => setEditing(-1)}>Cancel</button>
             </div>
+            </div>}
         </div>
     ));
     

@@ -449,16 +449,16 @@ p {
 
 .edit-button {
     position: absolute;
-    width: 750px;
-    margin-left: 250px;
+    width: 100px;
+    left: 578px;
     padding-top: 16px;
     transition: background-color 0.3s ease;
 }
 
 .delete-button {
     position: absolute;
-    width: 750px;
-    margin-left: 250px;
+    width: 100px;
+    left: 578px;
     padding-top: 16px;
     top: 60px;
     
@@ -698,3 +698,8 @@ label {
     border-radius: 15px;
 }
 
+.edit-rating {
+    width: 92% !important;
+    padding-left: 8px;
+    margin-left: 4px;
+}
