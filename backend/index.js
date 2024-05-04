@@ -40,9 +40,9 @@ app.get("/courses", async (req, res) => {
 });
 
 // get single course
-app.get("/courses/:course", async (req, res) => {
+app.get("/courses/:courseCode", async (req, res) => {
     try {
-        courseCode = decodeURIComponent(req.params.course);
+        courseCode = decodeURIComponent(req.params.courseCode);
 
         await client.connect();
         console.log("Node connected successfully to GET COURSE MongoDB");
