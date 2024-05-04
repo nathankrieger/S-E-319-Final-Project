@@ -9,20 +9,15 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const [login, setLogin] = useState(true);
     const [dbUser, setdbUser] = useState({});
     const [formUser, setFormUser] = useState("");
     const [formPass, setFormPass] = useState("");
-
-    const [formRegistrationUser, setRegistrationFormUser] = useState("");
-    const [formRegistrationPass, setRegistrationFormPass] = useState("");
 
     const logIn = async data => {
 
         fetch(`http://localhost:8081/user/${data.username}`)
             .then((response) => response.json())
             .then((data) => {
-                setLogin(true);
                 setdbUser(data);
             });
     }
@@ -55,7 +50,7 @@ const Login = () => {
 
 
         if (userRes.status === 200) {
-            const response = await fetch(`http://localhost:8081/user`, {
+            await fetch(`http://localhost:8081/user`, {
                 method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
             });
             alert("Account registered!")
@@ -89,12 +84,12 @@ const Login = () => {
                 <form className="container" onSubmit={handleRegisterSubmit(accRegister)}>
                     <div className="form-group">
                         <label htmlFor="registrationUsername">Username</label>
-                        <input {...registerRegister("registrationUsername", { required: true })} onChange={(e) => setRegistrationFormUser(e.target.value)} placeholder="Enter a username..." className="form-control" autoFocus />
+                        <input {...registerRegister("registrationUsername", { required: true })} placeholder="Enter a username..." className="form-control" autoFocus />
                         {registerErrors.registrationUsername && <p className="text-danger">Username is required.</p>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="registrationPassword">Password</label>
-                        <input {...registerRegister("registrationPassword", { required: true })} onChange={(e) => setRegistrationFormPass(e.target.value)} placeholder="Enter a password..." className="form-control" autoFocus />
+                        <input {...registerRegister("registrationPassword", { required: true })} placeholder="Enter a password..." className="form-control" autoFocus />
                         {registerErrors.registrationPassword && <p className="text-danger">Password is required.</p>}
                     </div>
                     <button type="submit" className="form-submit">Submit</button>

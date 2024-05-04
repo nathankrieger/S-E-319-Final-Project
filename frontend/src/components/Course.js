@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from 'react-router-dom';
-import { Link } from "react-router-dom";
 import { ObjectId } from 'bson';
 import '../style.css';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -21,7 +20,6 @@ const Course = ({ username }) => {
     const [editing, setEditing] = useState(-1);
 
     useEffect(() => {
-        console.log(localStorage.username);
         fetch(`http://localhost:8081/courses/${course}`)
             .then((response) => response.json())
             .then((data) => {
@@ -39,7 +37,6 @@ const Course = ({ username }) => {
 
     useEffect(() => {
         setRatingBars();
-        console.log(reviews);
     }, [reviews]);
 
     function setRatingBars() {
@@ -51,7 +48,7 @@ const Course = ({ username }) => {
     }
 
     function getAverageRating() {
-        if (reviews.length == 0) {
+        if (reviews.length === 0) {
             return 0;
         }
         else {
@@ -75,7 +72,7 @@ const Course = ({ username }) => {
             })
         });
 
-        if (response.status != 200) {
+        if (response.status !== 200) {
             alert("Failed to create review");
         }
         else {
@@ -163,11 +160,11 @@ const Course = ({ username }) => {
             ="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
                 <div className="user-info">
                     <h4 style={{ padding: "10px" }}>{review.user}</h4>
-                    <img id="star1" className="star" src={process.env.PUBLIC_URL + "/star.svg"} />
-                    <img id="star2" className="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 2 ? { visibility: "hidden" } : {}} />
-                    <img id="star3" className="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 3 ? { visibility: "hidden" } : {}} />
-                    <img id="star4" className="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 4 ? { visibility: "hidden" } : {}} />
-                    <img id="star5" className="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 5 ? { visibility: "hidden" } : {}} />
+                    <img id="star1" alt="" className="star" src={process.env.PUBLIC_URL + "/star.svg"} />
+                    <img id="star2" alt="" className="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 2 ? { visibility: "hidden" } : {}} />
+                    <img id="star3" alt="" className="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 3 ? { visibility: "hidden" } : {}} />
+                    <img id="star4" alt="" className="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 4 ? { visibility: "hidden" } : {}} />
+                    <img id="star5" alt="" className="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 5 ? { visibility: "hidden" } : {}} />
                 </div>
                 <div className="review-data" style={{wordWrap: "break-word"}}>
                     <p style={{paddingRight: "10px"}}>{review.body}</p>
