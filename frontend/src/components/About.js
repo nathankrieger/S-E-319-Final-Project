@@ -13,7 +13,7 @@ class About extends Component {
                     <a href="mailto:nkrieger@iastate.edu"><i class="fas fa-envelope"></i> nkrieger@iastate.edu</a> <br></br>
 
                 </p>
-
+                
                 <h2>Rocco Zollo</h2>
                 <p class="lead">
                     Junior studying Computer Science and Cybersecurity at Iowa State University.<br></br>

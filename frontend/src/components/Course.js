@@ -118,12 +118,12 @@ const Course = ({ username }) => {
         }
     }
 
-    const courseInfo = oneCourse.map((course) => (
-        <div class="text-center">
-            <div class="h-100 p-5 text-bg-dark rounded-3">
-                <h1 id="course-code" class="display-5 fw-bold" style={{ marginTop: "50px" }}>{course.courseCode}</h1>
-                <p id="course-title" class="col-md-8 fs-4" style={{ margin: "0 auto", textAlign: "center" }}>{course.courseTitle}</p>
-                <p id="course-credits" class="col-md-8 fs-4" style={{ margin: "0 auto", textAlign: "center", paddingTop: "20px" }}><strong>Credits: {course.credits}</strong></p>
+    const courseInfo = oneCourse.map((course, index) => (
+        <div key={index} className="text-center">
+            <div className="h-100 p-5 text-bg-dark rounded-3">
+                <h1 id="course-code" className="display-5 fw-bold" style={{ marginTop: "50px" }}>{course.courseCode}</h1>
+                <p id="course-title" className="col-md-8 fs-4" style={{ margin: "0 auto", textAlign: "center" }}>{course.courseTitle}</p>
+                <p id="course-credits" className="col-md-8 fs-4" style={{ margin: "0 auto", textAlign: "center", paddingTop: "20px" }}><strong>Credits: {course.credits}</strong></p>
             </div>
         </div>
     ));
@@ -132,15 +132,15 @@ const Course = ({ username }) => {
         <div className="form-container">
              <h3 className="mb-5">Add a review:</h3>
             <form className="container" onSubmit={handleNewSubmit(submitReview)}>
-                <div class="form-group">
-                    <label for="rating">Rate 1 - 5 Stars</label>
+                <div className="form-group">
+                    <label htmlFor="rating">Rate 1 - 5 Stars</label>
                     
                     <input {...newRegister("rating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Enter Rating..." className="form-control" autoFocus />
                         {newErrors.rating && <p className="text-danger">Rating is required.</p>}
 
                 </div>
-                <div class="form-group">
-                    <label for="review">Write a Review</label>
+                <div className="form-group">
+                    <label htmlFor="review">Write a Review</label>
                     <textarea
                         {...newRegister("review", {
                             required: true,
@@ -152,23 +152,24 @@ const Course = ({ username }) => {
                     />
                     {newErrors.review && <p className="text-danger">Review is required.</p>}
                 </div>
-                <button type="submit" class="form-submit">Submit</button>
+                <button type="submit" className="form-submit">Submit</button>
             </form>
         </div>
     );
 
     const reviewList = reviews.map((review, index) => (
-        <div class="row g-4 py-5">
-            {index !== editing && <div class="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
-                <div class="user-info">
+        <div key={index} className="row g-4 py-5">
+            {index !== editing && <div className
+            ="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
+                <div className="user-info">
                     <h4 style={{ padding: "10px" }}>{review.user}</h4>
-                    <img id="star1" class="star" src={process.env.PUBLIC_URL + "/star.svg"} />
-                    <img id="star2" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 2 ? { visibility: "hidden" } : {}} />
-                    <img id="star3" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 3 ? { visibility: "hidden" } : {}} />
-                    <img id="star4" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 4 ? { visibility: "hidden" } : {}} />
-                    <img id="star5" class="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 5 ? { visibility: "hidden" } : {}} />
+                    <img id="star1" className="star" src={process.env.PUBLIC_URL + "/star.svg"} />
+                    <img id="star2" className="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 2 ? { visibility: "hidden" } : {}} />
+                    <img id="star3" className="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 3 ? { visibility: "hidden" } : {}} />
+                    <img id="star4" className="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 4 ? { visibility: "hidden" } : {}} />
+                    <img id="star5" className="star" src={process.env.PUBLIC_URL + "/star.svg"} style={review.rating < 5 ? { visibility: "hidden" } : {}} />
                 </div>
-                <div class="review-data" style={{wordWrap: "break-word"}}>
+                <div className="review-data" style={{wordWrap: "break-word"}}>
                     <p style={{paddingRight: "10px"}}>{review.body}</p>
                 </div>
                 {review.user === localStorage.username && <div className="edit-button" onClick={() => setEditing(index)}>
@@ -180,15 +181,15 @@ const Course = ({ username }) => {
             </div>}
 
             {index === editing &&
-            <div class="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
+            <div className="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
                 <form onSubmit={handleEditSubmit(editReview)} style={{display: "contents"}}>
-                    <div class="user-info">
-                        <label for="newRating" style={{marginTop: "18px"}}>Rate 1 - 5 Stars</label>
+                    <div className="user-info">
+                        <label htmlFor="newRating" style={{marginTop: "18px"}}>Rate 1 - 5 Stars</label>
                         <input {...editRegister("newRating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Enter rating..." className="form-control edit-rating" autoFocus />
                             {editErrors.newRating && <p className="text-danger">Rating is required.</p>}
                     </div>
-                <div class="review-data">
-                    <label for="newReview">Write a Review</label>
+                <div className="review-data">
+                    <label htmlFor="newReview">Write a Review</label>
                     <textarea
                         {...editRegister("newReview", {
                             required: true,
@@ -200,11 +201,11 @@ const Course = ({ username }) => {
                         style={{width: "94%"}}/>
                     {editErrors.newReview && <p className="text-danger">Review is required.</p>}
                 </div>
-                <div class="edit-button">
+                <div className="edit-button">
                     <button type="submit">Submit</button>
                 </div>
             </form>
-            <div class="delete-button">
+            <div className="delete-button">
                 <button onClick={() => setEditing(-1)}>Cancel</button>
             </div>
             </div>}
