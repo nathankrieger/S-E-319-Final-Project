@@ -172,9 +172,6 @@ app.delete("/user/:username", async (req, res) => {
         query = {"reviews": {$elemMatch: {"user": username}}}
         const reviewsRes = await db.collection("courses").updateMany(query, {$pull: {'reviews': {'user': username}}});
 
-        query = {"ratings": {$elemMatch: {"user": username}}}
-        const ratingsRes = await db.collection("courses").updateMany(query, {$pull: {'ratings': {'user': username}}});
-
         query = {"username": username}
         const results = await db.collection("users").deleteOne(query);
 
@@ -214,30 +211,10 @@ app.get("/:course/reviews", async (req, res) => {
     }
 });
 
-//return rating for a course based on the course code
-app.get("/:course/ratings", async (req, res) => {
-    try {
-        courseCode = decodeURIComponent(req.params.course);
-
-        await client.connect();
-        console.log("Node connected successfully to GET RATINGS MongoDB");
-
-        const query = {"courseCode": courseCode};
-
-        const results = await db.collection("courses").findOne(query);
-
-        res.status(200);
-        res.send(results.ratings);
-    }
-    catch {
-        res.status(500);
-        res.send();
-    }
-});
-
 //post a review on a course from a user, also updating the ratings table
 //body format (can and probably will change later):
 // {
+//     "id": randomly generated unique id
 //     "title": title,
 //     "body": body,
 //     "rating": rating (decimal)
@@ -254,6 +231,7 @@ app.post("/:course/:username/reviews", async (req, res) => {
 
         const query = {"courseCode": courseCode};
         const payload = {
+            "_id": review.id,
             "user": username,
             "title": review.title,
             "body": review.body,
@@ -261,39 +239,6 @@ app.post("/:course/:username/reviews", async (req, res) => {
         };
 
         const results = await db.collection("courses").findOneAndUpdate(query, {$push: {"reviews": payload}});
-        const ratRes = await db.collection("courses").findOneAndUpdate(query, {$push: {"ratings": {"user": username, "rating": review.rating}}});
-
-        res.status(200);
-        res.send(results);
-    }
-    catch {
-        res.status(500);
-        res.send();
-    }
-});
-
-//post a rating on a course from a user
-//body format (can and probably will change later):
-// {
-//     "review": review (decimal)
-// }
-app.post("/:course/:username/ratings", async (req, res) => {
-    try {
-        username = req.params.username;
-        courseCode = decodeURIComponent(req.params.course);
-
-        rating = req.body.rating;
-
-        await client.connect();
-        console.log("Node connected successfully to POST RATING MongoDB");
-
-        const query = {"courseCode": courseCode};
-        const payload = {
-            "user": username,
-            "rating": rating
-        };
-
-        const results = await db.collection("courses").findOneAndUpdate(query, {$push: {"ratings": payload}});
 
         res.status(200);
         res.send(results);
@@ -305,16 +250,16 @@ app.post("/:course/:username/ratings", async (req, res) => {
 });
 
 //delete review for given course for specified user
-app.delete("/:course/:username/reviews", async (req, res) => {
+app.delete("/:course/:id/reviews", async (req, res) => {
     try {
         courseCode = decodeURIComponent(req.params.course);
-        username = req.params.username;
+        id = req.params.id;
 
         await client.connect();
         console.log("Node connected successfully to DELETE REVIEW MongoDB");
 
         const query = {"courseCode": courseCode};
-        const results = await db.collection("courses").findOneAndUpdate(query, {$pull: {'reviews': {'user': username}}});
+        const results = await db.collection("courses").findOneAndUpdate(query, {$pull: {'reviews': {'_id': id}}});
 
         res.status(200);
         res.send(results);
@@ -325,17 +270,18 @@ app.delete("/:course/:username/reviews", async (req, res) => {
     }
 });
 
-//delete rating for given course for specified user
-app.delete("/:course/:username/ratings", async (req, res) => {
+app.put("/:course/:id/reviews", async (req, res) => {
     try {
         courseCode = decodeURIComponent(req.params.course);
-        username = req.params.username;
+        id = req.params.id;
+
+        review = req.body;
 
         await client.connect();
-        console.log("Node connected successfully to DELETE RATING MongoDB");
+        console.log("Node connected successfully to PUT REVIEW MongoDB");
 
-        const query = {"courseCode": courseCode};
-        const results = await db.collection("courses").findOneAndUpdate(query, {$pull: {'ratings': {'user': username}}});
+        const query = {"courseCode": courseCode, "reviews._id": id};
+        const results = await db.collection("courses").findOneAndUpdate(query, {$set: {'reviews.$.body': review.body, 'reviews.$.rating': review.rating}});
 
         res.status(200);
         res.send(results);

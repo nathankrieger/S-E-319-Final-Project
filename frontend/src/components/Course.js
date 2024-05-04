@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import { ObjectId } from 'bson';
 import '../style.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -11,24 +12,19 @@ const Course = ({ username }) => {
     const params = useParams();
     const course = params.courseCode;
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register: newRegister, handleSubmit: handleNewSubmit, formState: { errors: newErrors } } = useForm();
+    const { register: editRegister, handleSubmit: handleEditSubmit, formState: { errors: editErrors } } = useForm();
 
     const [oneCourse, setOneCourse] = useState([]);
-    const [ratings, setRatings] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [numRatings, setNumRatings] = useState([0, 0, 0, 0, 0]);
+    const [editing, setEditing] = useState(-1);
 
     useEffect(() => {
         fetch(`http://localhost:8081/courses/${course}`)
             .then((response) => response.json())
             .then((data) => {
                 setOneCourse([data]);
-            });
-
-        fetch(`http://localhost:8081/${course}/ratings`)
-            .then((response) => response.json())
-            .then((data) => {
-                setRatings(data);
             });
 
         fetch(`http://localhost:8081/${course}/reviews`)
@@ -42,32 +38,35 @@ const Course = ({ username }) => {
 
     useEffect(() => {
         setRatingBars();
-    }, [ratings]);
+    }, [reviews]);
 
     function setRatingBars() {
         var tmp = [0, 0, 0, 0, 0];
-        for (var i = 0; i < ratings.length; i++) {
-            tmp[ratings[i].rating - 1]++;
+        for (var i = 0; i < reviews.length; i++) {
+            tmp[reviews[i].rating - 1]++;
         }
         setNumRatings(tmp);
     }
 
     function getAverageRating() {
-        if (ratings.length == 0) {
+        if (reviews.length == 0) {
             return 0;
         }
         else {
             var sum = 0;
-            for (var i = 0; i < ratings.length; i++) {
-                sum += ratings[i].rating;
+            for (var i = 0; i < reviews.length; i++) {
+                sum += reviews[i].rating;
             }
-            return (sum / ratings.length).toFixed(2);
+            return (sum / reviews.length).toFixed(2);
         }
     }
 
     const submitReview = async data => {
+        const id = new ObjectId();
+        console.log(id.toString);
         const response = await fetch(`http://localhost:8081/${course}/${localStorage.getItem("username")}/reviews`, {
             method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
+                "id": id.toString(),
                 "title": "tmp",
                 "body": data.review,
                 "rating": parseInt(data.rating)
@@ -82,43 +81,40 @@ const Course = ({ username }) => {
         }
     }
 
+    const editReview = data => {
+        try {
+            fetch(`http://localhost:8081/${course}/${reviews[editing]._id}/reviews`, {
+                    method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
+                        "body": data.newReview,
+                        "rating": parseInt(data.newRating)
+                    })
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                });
+            setEditing(-1);
+            window.location.reload();
+        }
+        catch {
+            console.log("error");
+        }
+    }
 
-    // TODO
-    // function DeleteReview() {
-
-    //     const getProduct = data => {
-    //         try {
-    //             fetch(`http://localhost:8081/${data.productid}`)
-    //                 .then((response) => response.json())
-    //                 .then((data) => {
-    //                     console.log("Show Catalog of Products :");
-    //                     console.log(data);
-    //                     setOneProduct([data]);
-    //                     setPutViewer(true);
-    //                 });
-    //         }
-    //         catch {
-    //             console.log("error");
-    //         }
-    //     }
-
-    //     const deleteItem = () => {
-    //         try {
-    //             fetch(`http://localhost:8081/${oneProduct[0].id}`, { method: "DELETE" })
-    //                 .then((response) => response.json())
-    //                 .then((data) => {
-    //                     console.log(data);
-    //                 });
-    //             alert("Item successfully deleted!");
-    //         }
-    //         catch {
-    //             console.log("error");
-    //         }
-    //     }
-    //     return (
-    //         <div></div>
-    //     );
-    // }
+    const deleteReview = index => {
+        try {
+            fetch(`http://localhost:8081/${course}/${reviews[index]._id}/reviews`, { method: "DELETE" })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                });
+            alert("Item successfully deleted!");
+            window.location.reload();
+        }
+        catch {
+            console.log("error");
+        }
+    }
 
     const courseInfo = oneCourse.map((course) => (
         <div class="text-center">
@@ -133,49 +129,18 @@ const Course = ({ username }) => {
     const addReview = (
         <div className="form-container">
              <h3 className="mb-5">Add a review:</h3>
-            {/*<form className="container m-5 review-form" onSubmit={handleSubmit(submitReview)}>
-                <div class="row">
-                    <div className="col">
-                        <label for="rating">Rating</label>
-                        <input {...register("rating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Rating" className="form-control" autoFocus />
-                        {errors.rating && <p className="text-danger">Rating is required.</p>}
-                    </div>
-                </div>
-                <div class="row">
-                    <div className="col">
-                        <label htmlFor="review">Review</label>
-                        <textarea
-                            {...register("review", {
-                                required: true,
-                            })}
-                            placeholder="Review"
-                            className="form-control"
-                            rows="3"
-                            autoFocus
-                        />
-                        {errors.review && <p className="text-danger">Please enter a review for the course.</p>}
-                    </div>
-                </div>
-                <button type="submit" className="btn btn-primary mt-3">Submit</button>
-            </form> */}
-
-            {/* <form className="container" onSubmit={handleSubmit(submitReview)}>
-                <input {...register("rating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Rating" className="form-control" autoFocus />
-                {errors.rating && <p className="text-danger">Rating is required.</p>}
-
-            </form> */}
-            <form className="container" onSubmit={handleSubmit(submitReview)}>
+            <form className="container" onSubmit={handleNewSubmit(submitReview)}>
                 <div class="form-group">
                     <label for="rating">Rate 1 - 5 Stars</label>
                     
-                    <input {...register("rating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Enter Rating..." className="form-control" autoFocus />
-                        {errors.rating && <p className="text-danger">Rating is required.</p>}
+                    <input {...newRegister("rating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Enter Rating..." className="form-control" autoFocus />
+                        {newErrors.rating && <p className="text-danger">Rating is required.</p>}
 
                 </div>
                 <div class="form-group">
                     <label for="review">Write a Review</label>
                     <textarea
-                        {...register("review", {
+                        {...newRegister("review", {
                             required: true,
                         })}
                         placeholder="Enter Review... "
@@ -189,9 +154,9 @@ const Course = ({ username }) => {
         </div>
     );
 
-    const reviewList = reviews.map((review) => (
+    const reviewList = reviews.map((review, index) => (
         <div class="row g-4 py-5">
-            <div class="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
+            {index !== editing && <div class="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
                 <div class="user-info">
                     <h4 style={{ padding: "10px" }}>{review.user}</h4>
                     <img id="star1" class="star" src={process.env.PUBLIC_URL + "/star.svg"} />
@@ -203,13 +168,42 @@ const Course = ({ username }) => {
                 <div class="review-data">
                     <p>{review.body}</p>
                 </div>
-                <div className="edit-button">
+                {!(review.username === localStorage.username) && <div className="edit-button" onClick={() => setEditing(index)}>
                     <button>Edit</button>
-                </div>
-                <div className="delete-button">
+                </div>}
+                {!(review.username === localStorage.username) && <div className="delete-button" onClick={() => deleteReview(index)}>
                     <button>Delete</button>
+                </div>}
+            </div>}
+
+            {index === editing &&
+            <div class="col d-flex flex-column position-relative course-container" style={{ height: "150px" }}>
+                <form onSubmit={handleEditSubmit(editReview)} style={{display: "contents"}}>
+                    <div class="user-info">
+                        <label for="newRating" style={{marginTop: "18px"}}>Rate 1 - 5 Stars</label>
+                        <input {...editRegister("newRating", { required: true, pattern: { value: /^[1-5]$/, message: "Please enter a valid number from 1-5" } })} placeholder="Enter rating..." className="form-control edit-rating" autoFocus />
+                            {editErrors.newRating && <p className="text-danger">Rating is required.</p>}
+                    </div>
+                <div class="review-data">
+                    <label for="newReview">Write a Review</label>
+                    <textarea
+                        {...editRegister("newReview", {
+                            required: true,
+                        })}
+                        placeholder="Enter review..."
+                        className="form-control"
+                        rows="3"
+                        autoFocus
+                        style={{width: "94%"}}/>
                 </div>
+                <div class="edit-button">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+            <div class="delete-button">
+                <button onClick={() => setEditing(-1)}>Cancel</button>
             </div>
+            </div>}
         </div>
     ));
     
@@ -225,7 +219,7 @@ const Course = ({ username }) => {
                         <span className="fa fa-star checked"></span>
                         <span className="fa fa-star checked"></span>
                         <span className="fa fa-star"></span>
-                        <p><strong>{getAverageRating()}</strong> average based on <strong>{ratings.length}</strong> reviews.</p>
+                        <p><strong>{getAverageRating()}</strong> average based on <strong>{reviews.length}</strong> reviews.</p>
                         <hr style={{ border: "3px solid #f1f1f1" }} />
 
                         <div className="row">
@@ -234,7 +228,7 @@ const Course = ({ username }) => {
                             </div>
                             <div className="middle">
                                 <div className="bar-container">
-                                    <div className="bar-5" style={{ width: `${(numRatings[4] / ratings.length) * 100}%` }}></div>
+                                    <div className="bar-5" style={{ width: `${(numRatings[4] / reviews.length) * 100}%` }}></div>
                                 </div>
                             </div>
                             <div className="side right">
@@ -245,7 +239,7 @@ const Course = ({ username }) => {
                             </div>
                             <div className="middle">
                                 <div className="bar-container">
-                                    <div className="bar-4" style={{ width: `${(numRatings[3] / ratings.length) * 100}%` }}></div>
+                                    <div className="bar-4" style={{ width: `${(numRatings[3] / reviews.length) * 100}%` }}></div>
                                 </div>
                             </div>
                             <div className="side right">
@@ -256,7 +250,7 @@ const Course = ({ username }) => {
                             </div>
                             <div className="middle">
                                 <div className="bar-container">
-                                    <div className="bar-3" style={{ width: `${(numRatings[2] / ratings.length) * 100}%` }}></div>
+                                    <div className="bar-3" style={{ width: `${(numRatings[2] / reviews.length) * 100}%` }}></div>
                                 </div>
                             </div>
                             <div className="side right">
@@ -267,7 +261,7 @@ const Course = ({ username }) => {
                             </div>
                             <div className="middle">
                                 <div className="bar-container">
-                                    <div className="bar-2" style={{ width: `${(numRatings[1] / ratings.length) * 100}%` }}></div>
+                                    <div className="bar-2" style={{ width: `${(numRatings[1] / reviews.length) * 100}%` }}></div>
                                 </div>
                             </div>
                             <div className="side right">
@@ -278,7 +272,7 @@ const Course = ({ username }) => {
                             </div>
                             <div className="middle">
                                 <div className="bar-container">
-                                    <div className="bar-1" style={{ width: `${(numRatings[0] / ratings.length) * 100}%` }}></div>
+                                    <div className="bar-1" style={{ width: `${(numRatings[0] / reviews.length) * 100}%` }}></div>
                                 </div>
                             </div>
                             <div className="side right">
@@ -288,7 +282,7 @@ const Course = ({ username }) => {
                     </div>
                     <div className="col">
                     <div className="row g-4 py-5">
-                        {addReview}
+                        {localStorage.username && addReview}
                         <h1 className="display-5 fw-bold">Reviews</h1>
                         {reviewList}
                     </div>

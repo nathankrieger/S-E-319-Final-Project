@@ -9,6 +9,7 @@ const Login = () => {
 
     const navigate = useNavigate();
 
+    const [login, setLogin] = useState(true);
     const [dbUser, setdbUser] = useState({});
     const [formUser, setFormUser] = useState("");
     const [formPass, setFormPass] = useState("");
@@ -21,6 +22,7 @@ const Login = () => {
         fetch(`http://localhost:8081/user/${data.username}`)
             .then((response) => response.json())
             .then((data) => {
+                setLogin(true);
                 setdbUser(data);
             });
     }
@@ -38,7 +40,7 @@ const Login = () => {
                 }
             }
             else {
-                alert("The username or password entered does not exist. ");
+                alert("There exists no account with this username.");
             }
         }
     }, [dbUser]);
