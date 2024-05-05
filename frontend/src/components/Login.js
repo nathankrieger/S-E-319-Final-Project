@@ -46,10 +46,10 @@ const Login = () => {
             "username": data.registrationUsername,
             "password": data.registrationPassword
         }
-        const userRes = await fetch(`http://localhost:8081/userRegister/${data.registrationUsername}`);
+        const userRes = await fetch(`http://localhost:8081/user/${data.registrationUsername}`);
 
 
-        if (userRes.status === 200) {
+        if (userRes.status === 404) {
             await fetch(`http://localhost:8081/user`, {
                 method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
             });

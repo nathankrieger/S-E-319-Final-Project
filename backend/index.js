@@ -106,30 +106,6 @@ app.get("/user/:username", async (req, res) => {
     }
 });
 
-//get single user
-app.get("/userRegister/:username", async (req, res) => {
-    try {
-        const username = req.params.username;
-
-        await client.connect();
-        console.log("Node connected successfully to GET USER MongoDB");
-
-        const query = {"username": username};
-
-        const results = await db.collection("users").findOne(query);
-
-        if (results === null) {
-            res.status(200).send({});
-        } else {
-            res.status(204).send({"error": "Username already exists"});
-        }
-    }
-    catch {
-        res.status(500);
-        res.send();
-    }
-});
-
 //add a new user provided username and password
 //payload format:
 // {
